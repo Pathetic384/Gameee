@@ -2,7 +2,7 @@
 
 #include "Func.h"
 
-class Base
+class Base 
 {
 public:
 	Base();
@@ -14,6 +14,8 @@ public:
 	void SetRect(const double& x, const double& y) { rect_.x = x, rect_.y = y; };
 	SDL_Rect GetRect() const { return rect_; }
 	SDL_Texture* GetObject() { return p_object_; }
+
+	bool CheckRect(const int& x, const int& y, const SDL_Rect& rect);
 
 protected:
 	SDL_Texture* p_object_;

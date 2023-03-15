@@ -194,6 +194,7 @@ void Char::Long2(Map& map, int x, int& run)
     {
         run = 0;
     }
+   
 }
 
 void Char::StreakPlus(double x)
@@ -226,7 +227,7 @@ void Char::PointPlus(double x)
 
 }
 
-void Char::CheckEnd(Map& g_map, int x)
+void Char::CheckEnd(Map& g_map, int x, int& end)
 {
     int x1 = x / TILE_SIZE - 1;
     int y1 = 1;
@@ -235,5 +236,9 @@ void Char::CheckEnd(Map& g_map, int x)
     if (g_map.tile[y1][x1] != 0)
     {
         streak = 0;
+    }
+    if (g_map.tile[y1][x1] == 7)
+    {
+        end = 0;
     }
 }
