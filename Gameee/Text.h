@@ -1,7 +1,7 @@
 #pragma once
-#include "Func.h"
+#include "Base.h"
 
-class Text
+class Text : public Base
 {
 public:
     Text();

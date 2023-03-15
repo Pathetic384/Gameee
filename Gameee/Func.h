@@ -7,7 +7,9 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+#include <iostream>
 static char g_name_main_right[] = { "img//player_right.png" };
+static char helpme[] = { "D://VS//Gameee//Gameee//img//button.png" };
 
 static  SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;
@@ -18,6 +20,7 @@ const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 600;
 const int SCREEN_BPP = 32;
 const int SPEED_SCREEN = 2;
+
 
 const int RENDER_DRAW_COLOR = 0XFF;
 
@@ -30,6 +33,16 @@ const int COLOR_KEY_B = 255;
 
 #define MAX_MAP_X 400
 #define MAX_MAP_Y 10
+
+#define NumQuit 7;
+
+
+namespace Func
+{
+
+    bool CheckCollision(const SDL_Rect& object1, const SDL_Rect& object2);
+
+}
 
 typedef struct Input
 {

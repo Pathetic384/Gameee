@@ -48,7 +48,7 @@ public:
     int GetStreak();
     void StreakPlus(double x);
 
-    void CheckEnd(Map& g_map, int x);
+    void CheckEnd(Map& g_map, int x, int& end);
 
     void PointPlus(double x);
     int GetPoint();

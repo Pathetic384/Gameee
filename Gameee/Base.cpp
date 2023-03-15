@@ -1,4 +1,5 @@
 #include "Base.h"
+#include <iostream>
 
 Base::Base()
 {
@@ -23,7 +24,7 @@ bool Base::LoadImg(std::string path, SDL_Renderer* screen)
     if (loadedSurface != NULL)
     {
         //Color key image
-        SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
+        //SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
 
         //Create texture from surface pixels
         newTexture = SDL_CreateTextureFromSurface(screen, loadedSurface);
@@ -65,3 +66,13 @@ void Base::Render(SDL_Renderer* des, const SDL_Rect* clip)
     }
     SDL_RenderCopy(des, p_object_, clip, &renderQuad);
 }
+
+bool Base::CheckRect(const int& x, const int& y, const SDL_Rect& rect)
+{
+    if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h)
+    {
+        return true;
+    }
+    return false;
+}
+
