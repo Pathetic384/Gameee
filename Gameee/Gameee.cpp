@@ -1,11 +1,11 @@
 #include <iostream>
-#include "Base.h";
-#include "Func.h";
-#include "Char.h";
-#include "gamemap.h";
-#include "Text.h";
-#include "Timer.h";
-#include <string>;
+#include "Base.h"
+#include "Func.h"
+#include "Char.h"
+#include "gamemap.h"
+#include "Text.h"
+#include "Timer.h"
+#include <string>
 #include "Menu.h"
 #include "Buttons.h"
 #include "Level.h"
@@ -76,12 +76,13 @@ int main(int argc, char* argv[])
         if (action == 1)
         {
             action = menuing.CreateMenu(g_screen);
-            if (action == 3) break;
         }
+
+        if (action == 3) break;
 
         if (action == 2)
         {
-            action = menuing.CreateLevels(g_screen);
+            action = menuing.CreateLevels(g_screen, score);
         }
 
         if (action == 4)

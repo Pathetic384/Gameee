@@ -13,7 +13,6 @@ static char helpme[] = { "D://VS//Gameee//Gameee//img//button.png" };
 
 static  SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;
-static SDL_Event g_event;
 
 const int FRAMES_PER_SECOND = 60;
 const int SCREEN_WIDTH = 1200;

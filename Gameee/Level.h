@@ -1,11 +1,11 @@
 #pragma once
-#include "Base.h";
-#include "Func.h";
-#include "Char.h";
-#include "gamemap.h";
-#include "Text.h";
-#include "Timer.h";
-#include <string>;
+#include "Base.h"
+#include "Func.h"
+#include "Char.h"
+#include "gamemap.h"
+#include "Text.h"
+#include "Timer.h"
+#include <string>
 #include "Menu.h"
 #include "Buttons.h"
 

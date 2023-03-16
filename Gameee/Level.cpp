@@ -13,7 +13,7 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
 {
     Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
     ImpTimer fps;
-    TTF_Font* g_font_text = TTF_OpenFont("D://VS//Gameee//Gameee//vibe.ttf", 45);
+    TTF_Font* g_font_text = TTF_OpenFont("vibe.ttf", 45);
 
     Base g_background;
     g_background.LoadImg("img//paris.png", screen);
@@ -51,6 +51,7 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
     int x = 200;
     int mapend = 1;
     bool is_quit = false;
+    SDL_Event e;
     while (is_quit == false)
     {
         Map help = game_map.GetMap();
@@ -61,10 +62,10 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
             t += 5;
         }
 
-        while (SDL_PollEvent(&g_event))
+        while (SDL_PollEvent(&e))
         {
 
-            if (g_event.type == SDL_QUIT)
+            if (e.type == SDL_QUIT)
             {
                 is_quit = true;
                 Mix_HaltMusic();
@@ -72,9 +73,9 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
                 break;
             }
 
-            p_player.Movement(g_event, x);
-            butt.handleEvent(&g_event, v);
-            p_player.Mappa(help, t, g_event, run);
+            p_player.Movement(e, x);
+            butt.handleEvent(&e, v);
+            p_player.Mappa(help, t, e, run);
         }
 
         SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);

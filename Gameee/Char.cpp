@@ -232,7 +232,7 @@ void Char::CheckEnd(Map& g_map, int x, int& end)
     int x1 = x / TILE_SIZE - 1;
     int y1 = 1;
     int y2 = 9;
-    std::cout << g_map.tile[y1][x1] << " ";
+    //std::cout << g_map.tile[y1][x1] << " ";
     if (g_map.tile[y1][x1] != 0)
     {
         streak = 0;

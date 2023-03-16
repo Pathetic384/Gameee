@@ -1,9 +1,15 @@
 #pragma once
 #include "Base.h"
+#include "Func.h"
+#include "Char.h"
+#include "gamemap.h"
 #include "Text.h"
+#include "Timer.h"
+#include <string>
+#include "Menu.h"
 #include "Buttons.h"
 
-class Menu : public Base
+class Menu 
 {
 public:
 	Menu();
@@ -11,11 +17,12 @@ public:
 
 	int CreateMenu(SDL_Renderer* screen);
 
-	int CreateLevels(SDL_Renderer* screen);
+	int CreateLevels(SDL_Renderer* screen, int& score);
 
-	int CreateResult(SDL_Renderer* screen, int score);
+	int CreateResult(SDL_Renderer* screen, int& score);
 
 	int CreatePause(SDL_Renderer* screen);
-private:
 
+private:
+	TTF_Font* font = TTF_OpenFont("vibe.ttf", 45);
 };
