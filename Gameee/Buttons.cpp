@@ -1,7 +1,7 @@
 #include "Buttons.h"
 #include <iostream>
 
-LButton::LButton()
+Button::Button()
 {
     width_frame_ = 0;
     height_frame_ = 0;
@@ -9,7 +9,7 @@ LButton::LButton()
 
 }
 
-void LButton::set_clips()
+void Button::set_clips()
 {
 	for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
 	{
@@ -20,7 +20,7 @@ void LButton::set_clips()
 	}
 }
 
-bool LButton::LoadImg(std::string path, SDL_Renderer* screen)
+bool Button::LoadImg(std::string path, SDL_Renderer* screen)
 {
     bool ret = Base::LoadImg(path, screen);
 
@@ -32,10 +32,10 @@ bool LButton::LoadImg(std::string path, SDL_Renderer* screen)
     return ret;
 }
 
-void LButton::handleEvent(SDL_Event* e, int& t)
+void Button::handleEvent(SDL_Event e, int& t)
 {
 	//If mouse event happened
-	if (e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP)
+	if (e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP)
 	{
 		//Get mouse position
 		int x, y;
@@ -74,26 +74,34 @@ void LButton::handleEvent(SDL_Event* e, int& t)
 		else
 		{
 			//Set mouse over sprite
-			switch (e->type)
+			switch (e.type)
 			{
 			case SDL_MOUSEMOTION:
 				mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+				t = 2;
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
-				mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
-				break;
-
+			{
+				if (e.button.button == SDL_BUTTON_LEFT)
+				{
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+				}
+			}
 			case SDL_MOUSEBUTTONUP:
-				mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
-				t = 1;
-				break;
+				if (e.button.button == SDL_BUTTON_LEFT)
+				{
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					t = 1;
+					break;
+				}
 			}
 		}
 	}
 }
 
-void LButton::Show(SDL_Renderer* des)
+void Button::Show(SDL_Renderer* des)
 {
 	SDL_Rect* currentClip = &frame_clip_[mCurrentSprite];
 	SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };

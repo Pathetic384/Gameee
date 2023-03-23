@@ -10,8 +10,14 @@ public:
 	virtual bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
 
+	void setAlpha(Uint8 alpha)
+	{
+		//Modulate texture alpha
+		SDL_SetTextureAlphaMod(p_object_, alpha);
+	}
+
 	void Free();
-	void SetRect(const double& x, const double& y) { rect_.x = x, rect_.y = y; };
+	void SetRect(const int& x, const int& y) { rect_.x = x, rect_.y = y; };
 	SDL_Rect GetRect() const { return rect_; }
 	SDL_Texture* GetObject() { return p_object_; }
 

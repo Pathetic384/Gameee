@@ -3,9 +3,8 @@
 
 const int BUTTON_WIDTH = 300;
 const int BUTTON_HEIGHT = 200;
-const int TOTAL_BUTTONS = 4;
 
-enum LButtonSprite
+enum ButtonSprite
 {
 	BUTTON_SPRITE_MOUSE_OUT = 0,
 	BUTTON_SPRITE_MOUSE_OVER_MOTION = 1,
@@ -14,17 +13,17 @@ enum LButtonSprite
 	BUTTON_SPRITE_TOTAL = 4
 };
 
-class LButton : public Base
+class Button : public Base
 {
 public:
 	//Initializes internal variables
-	LButton();
+	Button();
 
 	void set_clips();
 
 	bool LoadImg(std::string path, SDL_Renderer* screen);
 
-	void handleEvent(SDL_Event* e, int& t);
+	void handleEvent(SDL_Event e, int& t);
 
 	void Show(SDL_Renderer* des);
 
@@ -43,5 +42,5 @@ private:
 	int status_;
 
 	//Currently used global sprite
-	LButtonSprite mCurrentSprite;
+	ButtonSprite mCurrentSprite;
 };

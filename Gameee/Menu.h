@@ -8,6 +8,7 @@
 #include <string>
 #include "Menu.h"
 #include "Buttons.h"
+#include "Particle.h"
 
 class Menu 
 {

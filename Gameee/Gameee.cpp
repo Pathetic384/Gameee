@@ -82,6 +82,7 @@ int main(int argc, char* argv[])
 
         if (action == 2)
         {
+            Mix_HaltMusic();
             action = menuing.CreateLevels(g_screen, score);
         }
 
@@ -97,7 +98,7 @@ int main(int argc, char* argv[])
 
         if (action == 6)
         {
-            action = menuing.CreatePause(g_screen);
+            //action = menuing.CreatePause(g_screen);
         }
     }
      close();

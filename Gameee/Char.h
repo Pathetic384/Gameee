@@ -4,6 +4,7 @@
 #include "Base.h"
 #include "gamemap.h"
 #include <iostream>
+#include "Effects.h"
 
 #define Char_Width 230
 #define Char_Height 230
@@ -40,7 +41,7 @@ public:
         rect_.y = 270;
     };
 
-    void Mappa(Map& g_map, int x, SDL_Event event, int& run);
+    void Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* screen);
 
     void Long(Map& g_map, int x);
     void Long2(Map& g_map, int x, int& run);
@@ -52,16 +53,19 @@ public:
 
     void PointPlus(double x);
     int GetPoint();
+
+    void SetEffect(SDL_Renderer* screen)
+    {
+       bool ret = Eff2.LoadImg("img//ee.png", screen);
+       if (ret == false) std::cout << 111;
+        Eff2.set_clips();
+    }
+
 private:
 
     SDL_Rect frame_clip_[8];
     int map_x_;
     int map_y_;
-
-    float x_val_;
-    float y_val_;
-    float x_pos_;
-    float y_pos_;
 
     int width_frame_;
     int height_frame_;
@@ -72,4 +76,7 @@ private:
 
     double streak;
     double points;
+
+    Effects Eff;
+    Effects Eff2;
 };
