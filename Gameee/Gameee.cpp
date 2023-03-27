@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
 
         if (action == 6)
         {
-            //action = menuing.CreatePause(g_screen);
+            action = menuing.CreatePause(g_screen);
         }
     }
      close();

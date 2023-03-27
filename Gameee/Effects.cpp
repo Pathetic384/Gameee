@@ -4,25 +4,14 @@ Effects::Effects()
 {
 	width_frame_ = 0;
 	height_frame_ = 0;
-	frame_ = -1;
+	frame_ = 0;
 	sprite = -1;
-
-}
-
-void Effects::set_clips2()
-{
-	for (int i = 0; i < 8; ++i)
-	{
-		frame_clip_2[i].x = i * width_frame_;
-		frame_clip_2[i].y = 0;
-		frame_clip_2[i].w = width_frame_;
-		frame_clip_2[i].h = height_frame_;
-	}
+	framerun = true;
 }
 
 void Effects::set_clips()
 {
-	for (int i = 0; i < 55; ++i)
+	for (int i = 0; i < 19; ++i)
 	{
 		frame_clip_[i].x = i * 64;
 		frame_clip_[i].y = 0 * 64;
@@ -38,7 +27,7 @@ bool Effects::LoadImg(std::string path, SDL_Renderer* screen)
 
 	if (ret == true)
 	{
-		width_frame_ = rect_.w / 8;
+		width_frame_ = rect_.w / 19;
 		height_frame_ = rect_.h;
 	}
 	return ret;
@@ -47,10 +36,11 @@ bool Effects::LoadImg(std::string path, SDL_Renderer* screen)
 
 void Effects::Show(SDL_Renderer* des)
 {
-	frame_++;
-	if (frame_ >= 55)
+	if (framerun == true) frame_++;
+	if (frame_ >= 19)
 	{
 		frame_ = 0;
+		framerun = false;
 	}
 	SDL_Rect* currentClip = &frame_clip_[frame_];
 	SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };

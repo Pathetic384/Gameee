@@ -13,9 +13,10 @@ public:
 
 	void Show(SDL_Renderer* des);
 
-	void SetFrame(int x)
+	void Reset()
 	{
-		frame_ = x;
+		frame_ = 0;
+		framerun = true;
 	}
 
 	void Set(int x, int y)
@@ -24,12 +25,10 @@ public:
 		rect_.y = y;
 	};
 
-	void set_clips2();
+
 
 private:
-	SDL_Rect frame_clip_[55];
-
-	SDL_Rect frame_clip_2[8];
+	SDL_Rect frame_clip_[19];
 
 	int width_frame_;
 	int height_frame_;
@@ -38,4 +37,5 @@ private:
 
 	int frame_;
 
+	bool framerun;
 };

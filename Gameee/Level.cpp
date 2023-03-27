@@ -16,19 +16,47 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
     ImpTimer fps;
     TTF_Font* g_font_text = TTF_OpenFont("vibe.ttf", 45);
 
-    Base g_background;
-    g_background.LoadImg("img//paris.png", screen);
+    Base layer11;
+    layer11.LoadImg("img//bk1//1.png", screen);
+    Base layer12;
+    layer12.LoadImg("img//bk1//1.png", screen);
+    layer12.SetRect(1200, 0);
+    Base layer21;
+    layer21.LoadImg("img//bk1//2.png", screen);
+    Base layer22;
+    layer22.LoadImg("img//bk1//2.png", screen);
+    layer22.SetRect(1200, 0);
+    Base layer31;
+    layer31.LoadImg("img//bk1//3.png", screen);
+    Base layer32;
+    layer32.LoadImg("img//bk1//3.png", screen);
+    layer32.SetRect(1200, 0);
+    Base layer41;
+    layer41.LoadImg("img//bk1//4.png", screen);
+    Base layer42;
+    layer42.LoadImg("img//bk1//4.png", screen);
+    layer42.SetRect(1200, 0);
+    Base layer51;
+    layer51.LoadImg("img//bk1//5.png", screen);
+    Base layer52;
+    layer52.LoadImg("img//bk1//5.png", screen);
+    layer52.SetRect(1200, 0);
+
     Char p_player;
-    p_player.LoadImg(g_name_main_right, screen);
+    p_player.LoadImg("img//char.png", screen);
     p_player.set_clips();
     p_player.Set();
-    p_player.SetEffect(screen);
 
     Button butt;
     bool rett = butt.LoadImg(helpme, screen);
     if (rett == false) return 0;
     butt.set_clips();
     butt.Set(1000, 100);
+
+    Effects eff;
+    eff.LoadImg("img//ee.png", screen);
+    eff.set_clips();
+    eff.Set(120, 90);
 
     GameMap game_map;
     game_map.LoadMap("map//map01.dat");
@@ -48,7 +76,9 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
     int xmove = 0;
     int t = 160;
 
+    int niw = 0;
     int v = 0;
+    int ef = 0;
 
     int x = 200;
     int mapend = 1;
@@ -77,14 +107,15 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
 
             p_player.Movement(e, x);
             butt.handleEvent(e, v);
-            p_player.Mappa(help, t, e, run, screen);
+            p_player.Mappa(help, t, e, run, screen, ef, niw);
         }
 
         SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(screen);
 
         p_player.CheckEnd(help, t, mapend);
-        p_player.Long2(help, t, run);
+        p_player.Long2(help, t, run, niw);
+
         if (run == 1)
         {
             p_player.Long(help, t);
@@ -92,8 +123,33 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
             p_player.PointPlus(0.1);
         }
 
+        
+        
+        layer11.Move();
+        layer11.Render(screen, NULL);
+        layer12.Move2();
+        layer12.Render(screen, NULL);
 
-        g_background.Render(screen, NULL);
+        layer21.Move3();
+        layer21.Render(screen, NULL);
+        layer22.Move4();
+        layer22.Render(screen, NULL);
+
+        layer31.Move5();
+        layer31.Render(screen, NULL);
+        layer32.Move6();
+        layer32.Render(screen, NULL);
+
+        layer41.Move7();
+        layer41.Render(screen, NULL);
+        layer42.Move8();
+        layer42.Render(screen, NULL);
+
+        layer51.Move9();
+        layer51.Render(screen, NULL);
+        layer52.Move10();
+        layer52.Render(screen, NULL); 
+
 
         butt.Show(screen);
         p_player.Show(screen);
@@ -101,7 +157,12 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
         game_map.SetMap(help);
         game_map.DrawMap(screen);
 
-
+        if (ef == 1)
+        {
+            eff.Reset();
+        }
+        eff.Show(screen);
+        ef = 0;
 
         int poi = p_player.GetStreak();
         std::string poin = std::to_string(poi);
@@ -120,12 +181,15 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
         pointin.RenderText(screen, 20, 20);
 
         SDL_RenderPresent(screen);
+        
+
         int imp_time = fps.get_ticks();
         int time_for_one_frame = 1000 / FRAMES_PER_SECOND;
         if (imp_time < time_for_one_frame)
         {
             SDL_Delay(time_for_one_frame - imp_time);
         }
+       
 
         if (mapend == 0)
         {

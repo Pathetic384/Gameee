@@ -24,8 +24,8 @@ bool Base::LoadImg(std::string path, SDL_Renderer* screen)
     if (loadedSurface != NULL)
     {
         //Color key image
-        //SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
-
+        SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 255, 255));
+        SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 195, 195, 195));
         //Create texture from surface pixels
         newTexture = SDL_CreateTextureFromSurface(screen, loadedSurface);
         if (newTexture != NULL)
@@ -67,12 +67,54 @@ void Base::Render(SDL_Renderer* des, const SDL_Rect* clip)
     SDL_RenderCopy(des, p_object_, clip, &renderQuad);
 }
 
-bool Base::CheckRect(const int& x, const int& y, const SDL_Rect& rect)
+void Base::Move()
 {
-    if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h)
-    {
-        return true;
-    }
-    return false;
+    rect_.x -= 1;
+    if (rect_.x < -1200) rect_.x += 1200;
 }
 
+void Base::Move2()
+{
+    rect_.x -= 1;
+    if (rect_.x < 0) rect_.x += 1200;
+}
+void Base::Move3()
+{
+    rect_.x -= 2;
+    if (rect_.x < -1200) rect_.x += 1200;
+}
+void Base::Move4()
+{
+    rect_.x -= 2;
+    if (rect_.x < 0) rect_.x += 1200;
+}
+void Base::Move5()
+{
+    rect_.x -= 3;
+    if (rect_.x < -1200) rect_.x += 1200;
+}
+void Base::Move6()
+{
+    rect_.x -= 3;
+    if (rect_.x < 0) rect_.x += 1200;
+}
+void Base::Move7()
+{
+    rect_.x -= 4;
+    if (rect_.x < -1200) rect_.x += 1200;
+}
+void Base::Move8()
+{
+    rect_.x -= 4;
+    if (rect_.x < 0) rect_.x += 1200;
+}
+void Base::Move9()
+{
+    rect_.x -= 6;
+    if (rect_.x < -1200) rect_.x += 1200;
+}
+void Base::Move10()
+{
+    rect_.x -= 6;
+    if (rect_.x < 0) rect_.x += 1200;
+}

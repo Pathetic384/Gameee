@@ -6,8 +6,6 @@
 #include <iostream>
 #include "Effects.h"
 
-#define Char_Width 230
-#define Char_Height 230
 
 class Char : public Base
 {
@@ -38,13 +36,13 @@ public:
     void Movement(SDL_Event events, int x);
     void Set() {
         rect_.x = 120;
-        rect_.y = 270;
+        rect_.y = 255;
     };
 
-    void Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* screen);
+    void Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* screen, int& ef, int& niw);
 
     void Long(Map& g_map, int x);
-    void Long2(Map& g_map, int x, int& run);
+    void Long2(Map& g_map, int x, int& run, int& niw);
 
     int GetStreak();
     void StreakPlus(double x);
@@ -54,16 +52,9 @@ public:
     void PointPlus(double x);
     int GetPoint();
 
-    void SetEffect(SDL_Renderer* screen)
-    {
-       bool ret = Eff2.LoadImg("img//ee.png", screen);
-       if (ret == false) std::cout << 111;
-        Eff2.set_clips();
-    }
-
 private:
 
-    SDL_Rect frame_clip_[8];
+    SDL_Rect frame_clip_[45];
     int map_x_;
     int map_y_;
 

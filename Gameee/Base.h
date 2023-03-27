@@ -21,7 +21,21 @@ public:
 	SDL_Rect GetRect() const { return rect_; }
 	SDL_Texture* GetObject() { return p_object_; }
 
-	bool CheckRect(const int& x, const int& y, const SDL_Rect& rect);
+	void Move();
+	void Move2();
+
+	void Move3();
+	void Move4();
+
+	void Move5();
+	void Move6();
+
+	void Move7();
+	void Move8();
+
+	void Move9();
+	void Move10();
+
 
 protected:
 	SDL_Texture* p_object_;
