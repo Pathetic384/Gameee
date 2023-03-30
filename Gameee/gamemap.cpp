@@ -76,6 +76,69 @@ void GameMap::LoadMapTiles(SDL_Renderer* screen)
         tile_mat_[i].LoadImg(filename, screen);
     }
 }
+void GameMap::LoadMapTiles2(SDL_Renderer* screen)
+{
+    char filename[40];
+    FILE* fp;
+
+    for (int i = 0; i < MAX_TILES; i++)
+    {
+        sprintf_s(filename, "map2/%d.png", i);
+
+        fopen_s(&fp, filename, "rb");
+
+        if (fp == NULL)
+        {
+            continue;
+        }
+
+        fclose(fp);
+
+        tile_mat_[i].LoadImg(filename, screen);
+    }
+}
+void GameMap::LoadMapTiles3(SDL_Renderer* screen)
+{
+    char filename[40];
+    FILE* fp;
+
+    for (int i = 0; i < MAX_TILES; i++)
+    {
+        sprintf_s(filename, "map3/%d.png", i);
+
+        fopen_s(&fp, filename, "rb");
+
+        if (fp == NULL)
+        {
+            continue;
+        }
+
+        fclose(fp);
+
+        tile_mat_[i].LoadImg(filename, screen);
+    }
+}
+void GameMap::LoadMapTiles4(SDL_Renderer* screen)
+{
+    char filename[40];
+    FILE* fp;
+
+    for (int i = 0; i < MAX_TILES; i++)
+    {
+        sprintf_s(filename, "map4/%d.png", i);
+
+        fopen_s(&fp, filename, "rb");
+
+        if (fp == NULL)
+        {
+            continue;
+        }
+
+        fclose(fp);
+
+        tile_mat_[i].LoadImg(filename, screen);
+    }
+}
 
 void GameMap::DrawMap(SDL_Renderer* des)
 {

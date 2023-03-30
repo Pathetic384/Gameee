@@ -22,9 +22,9 @@ public:
 
     void set_clips();
 
-    void MapMo(Map& map_data)
+    void MapMo(Map& map_data, int move)
     {
-        map_data.start_x_ += 5;
+        map_data.start_x_ += move;
     };
 
     bool LoadImg(std::string path, SDL_Renderer* screen);

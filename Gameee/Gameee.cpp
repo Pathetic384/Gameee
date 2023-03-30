@@ -9,6 +9,9 @@
 #include "Menu.h"
 #include "Buttons.h"
 #include "Level.h"
+#include "Level2.h"
+#include "Level3.h"
+#include "Level4.h"
 
 bool InitData()
 {
@@ -66,9 +69,27 @@ int main(int argc, char* argv[])
     }
     Menu menuing;
     Level lev;
+    Level2 lev2;
+    Level3 lev3;
+    Level4 lev4;
 
     int action = 1;
+
     int score = 0;
+    int high_score = 0;
+    int per = 0;
+
+    int score2 = 0;
+    int high_score2 = 0;
+    int per2 = 0;
+
+    int score3 = 0;
+    int high_score3 = 0;
+    int per3 = 0;
+
+    int score4 = 0;
+    int high_score4 = 0;
+    int per4 = 0;
     // 1 = to menu // 2 = to level // 3 = quit // 4 = to level // 5 = result
 
     while (action != 3)
@@ -83,7 +104,7 @@ int main(int argc, char* argv[])
         if (action == 2)
         {
             Mix_HaltMusic();
-            action = menuing.CreateLevels(g_screen, score);
+            action = menuing.CreateLevels(g_screen, high_score, high_score2, high_score3, high_score4, per, per2, per3, per4);
         }
 
         if (action == 4)
@@ -93,12 +114,44 @@ int main(int argc, char* argv[])
 
         if (action == 5)
         {
-            action = menuing.CreateResult(g_screen, score);
+            action = menuing.CreateResult(g_screen, score, high_score, per);
         }
 
         if (action == 6)
         {
             action = menuing.CreatePause(g_screen);
+        }
+
+        if (action == 7)
+        {
+            action = menuing.CreateTutorial(g_screen);
+        }
+
+        if (action == 8)
+        {
+            action = lev2.CreateLevel(g_screen, score2);
+        }
+
+        if (action == 9)
+        {
+            action = lev3.CreateLevel(g_screen, score3);
+        }
+
+        if (action == 10)
+        {
+            action = lev4.CreateLevel(g_screen, score4);
+        }
+        if (action == 11)
+        {
+            action = menuing.CreateResult(g_screen, score2, high_score2, per2);
+        }
+        if (action == 12)
+        {
+            action = menuing.CreateResult(g_screen, score3, high_score3, per3);
+        }
+        if (action == 13)
+        {
+            action = menuing.CreateResult(g_screen, score4, high_score4, per4);
         }
     }
      close();

@@ -20,7 +20,6 @@ const int SCREEN_HEIGHT = 600;
 const int SCREEN_BPP = 32;
 const int SPEED_SCREEN = 2;
 
-
 const int RENDER_DRAW_COLOR = 0XFF;
 
 const int COLOR_KEY_R = 255;

@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "Base.h"
 #include "Func.h"
 #include "Char.h"
@@ -10,11 +9,11 @@
 #include "Menu.h"
 #include "Buttons.h"
 
-class Level2
+class Level4
 {
 public:
-	Level2();
-	~Level2();
+	Level4();
+	~Level4();
 
 	int CreateLevel(SDL_Renderer* screen, int& score);
 

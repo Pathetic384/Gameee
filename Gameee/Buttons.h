@@ -1,9 +1,6 @@
 #pragma once
 #include "Base.h"
 
-const int BUTTON_WIDTH = 300;
-const int BUTTON_HEIGHT = 200;
-
 enum ButtonSprite
 {
 	BUTTON_SPRITE_MOUSE_OUT = 0,
@@ -19,7 +16,7 @@ public:
 	//Initializes internal variables
 	Button();
 
-	void set_clips();
+	void set_button_clips(int x);
 
 	bool LoadImg(std::string path, SDL_Renderer* screen);
 
@@ -43,4 +40,7 @@ private:
 
 	//Currently used global sprite
 	ButtonSprite mCurrentSprite;
+
+	int BUTTON_WIDTH;
+	int BUTTON_HEIGHT;
 };

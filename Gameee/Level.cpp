@@ -1,6 +1,7 @@
 #include "Level.h"
 #include <iostream>
 #include "Effects.h"
+#include "Res.h"
 
 Level::Level()
 {
@@ -41,6 +42,11 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
     Base layer52;
     layer52.LoadImg("img//bk1//5.png", screen);
     layer52.SetRect(1200, 0);
+    Base layer61;
+    layer61.LoadImg("img//bk1//6.png", screen);
+    Base layer62;
+    layer62.LoadImg("img//bk1//6.png", screen);
+    layer62.SetRect(1200, 0);
 
     Char p_player;
     p_player.LoadImg("img//char.png", screen);
@@ -48,23 +54,43 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
     p_player.Set();
 
     Button butt;
-    bool rett = butt.LoadImg(helpme, screen);
-    if (rett == false) return 0;
-    butt.set_clips();
-    butt.Set(1000, 100);
+    butt.LoadImg("img//buttons//pausebutton.png", screen);
+    butt.set_button_clips(65);
+    butt.Set(1125, 10);
 
     Effects eff;
     eff.LoadImg("img//ee.png", screen);
     eff.set_clips();
-    eff.Set(120, 90);
+    eff.Set(120, 80);
+    Res good;
+    good.LoadImg("img//good.png", screen);
+    good.set_clips();
+    good.Set(120, 180);
+    Res perfect;
+    perfect.LoadImg("img//perfect.png", screen);
+    perfect.set_clips();
+    perfect.Set(120, 180);
+
+    Effects eff2;
+    eff2.LoadImg("img//ee.png", screen);
+    eff2.set_clips();
+    eff2.Set(120, 500);
+    Res good2;
+    good2.LoadImg("img//good.png", screen);
+    good2.set_clips();
+    good2.Set(120, 400);
+    Res perfect2;
+    perfect2.LoadImg("img//perfect.png", screen);
+    perfect2.set_clips();
+    perfect2.Set(120, 400);
 
     GameMap game_map;
     game_map.LoadMap("map//map01.dat");
     game_map.LoadMapTiles(screen);
 
     Mix_Music* mus;
-    mus = Mix_LoadMUS("Kawaii.mp3");
-    //Mix_PlayMusic(mus, 1);
+    mus = Mix_LoadMUS("songs//Roll.mp3");
+    Mix_PlayMusic(mus, 1);
 
     Text textin;
     textin.setColor(2);
@@ -90,7 +116,7 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
 
         if (mapend == 1)
         {
-            p_player.MapMo(help);
+            p_player.MapMo(help, 5);
             t += 5;
         }
 
@@ -145,10 +171,15 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
         layer42.Move8();
         layer42.Render(screen, NULL);
 
-        layer51.Move9();
+        layer51.Move7();
         layer51.Render(screen, NULL);
-        layer52.Move10();
+        layer52.Move8();
         layer52.Render(screen, NULL); 
+
+        layer61.Move9();
+        layer61.Render(screen, NULL);
+        layer62.Move10();
+        layer62.Render(screen, NULL);
 
 
         butt.Show(screen);
@@ -157,11 +188,35 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
         game_map.SetMap(help);
         game_map.DrawMap(screen);
 
-        if (ef == 1)
+        if (ef != 0)
         {
-            eff.Reset();
+            if (ef == 1)
+            {
+                eff.Reset();
+                perfect.Reset();
+            }
+            if (ef == 2)
+            {
+                eff.Reset();
+                good.Reset();
+            }
+            if (ef == 3)
+            {
+                eff2.Reset();
+                perfect2.Reset();
+            }
+            if (ef == 4)
+            {
+                eff2.Reset();
+                good2.Reset();
+            }
         }
+        good.Show(screen);
+        perfect.Show(screen);
         eff.Show(screen);
+        good2.Show(screen);
+        perfect2.Show(screen);
+        eff2.Show(screen);
         ef = 0;
 
         int poi = p_player.GetStreak();

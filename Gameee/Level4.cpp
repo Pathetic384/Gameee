@@ -1,52 +1,47 @@
-#include "Level2.h"
+#include "Level4.h"
 #include <iostream>
 #include "Effects.h"
 #include "Res.h"
 
-Level2::Level2()
+Level4::Level4()
 {
 
 }
-Level2::~Level2()
+Level4::~Level4()
 {
 
 }
-int Level2::CreateLevel(SDL_Renderer* screen, int& score)
+int Level4::CreateLevel(SDL_Renderer* screen, int& score)
 {
     Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
     ImpTimer fps;
     TTF_Font* g_font_text = TTF_OpenFont("vibe.ttf", 45);
 
     Base layer11;
-    layer11.LoadImg("img//bk2//1.png", screen);
+    layer11.LoadImg("img//bk4//1.png", screen);
     Base layer12;
-    layer12.LoadImg("img//bk2//1.png", screen);
+    layer12.LoadImg("img//bk4//1.png", screen);
     layer12.SetRect(1200, 0);
     Base layer21;
-    layer21.LoadImg("img//bk2//2.png", screen);
+    layer21.LoadImg("img//bk4//2.png", screen);
     Base layer22;
-    layer22.LoadImg("img//bk2//2.png", screen);
+    layer22.LoadImg("img//bk4//2.png", screen);
     layer22.SetRect(1200, 0);
     Base layer31;
-    layer31.LoadImg("img//bk2//3.png", screen);
+    layer31.LoadImg("img//bk4//3.png", screen);
     Base layer32;
-    layer32.LoadImg("img//bk2//3.png", screen);
+    layer32.LoadImg("img//bk4//3.png", screen);
     layer32.SetRect(1200, 0);
     Base layer41;
-    layer41.LoadImg("img//bk2//4.png", screen);
+    layer41.LoadImg("img//bk4//4.png", screen);
     Base layer42;
-    layer42.LoadImg("img//bk2//4.png", screen);
+    layer42.LoadImg("img//bk4//4.png", screen);
     layer42.SetRect(1200, 0);
     Base layer51;
-    layer51.LoadImg("img//bk2//5.png", screen);
+    layer51.LoadImg("img//bk4//5.png", screen);
     Base layer52;
-    layer52.LoadImg("img//bk2//5.png", screen);
+    layer52.LoadImg("img//bk4//5.png", screen);
     layer52.SetRect(1200, 0);
-    Base layer61;
-    layer61.LoadImg("img//bk2//5.png", screen);
-    Base layer62;
-    layer62.LoadImg("img//bk2//6.png", screen);
-    layer62.SetRect(1200, 0);
 
     Char p_player;
     p_player.LoadImg("img//char.png", screen);
@@ -85,12 +80,12 @@ int Level2::CreateLevel(SDL_Renderer* screen, int& score)
     perfect2.Set(120, 400);
 
     GameMap game_map;
-    game_map.LoadMap("map2//map01.dat");
-    game_map.LoadMapTiles2(screen);
+    game_map.LoadMap("map4//map01.dat");
+    game_map.LoadMapTiles4(screen);
 
-    Mix_Music* mus2;
-    mus2 = Mix_LoadMUS("songs//RushE.mp3");
-    Mix_PlayMusic(mus2, 1);
+    Mix_Music* mus4;
+    mus4 = Mix_LoadMUS("songs//Kickback.mp3");
+    Mix_PlayMusic(mus4, 1);
 
     Text textin;
     textin.setColor(2);
@@ -176,11 +171,6 @@ int Level2::CreateLevel(SDL_Renderer* screen, int& score)
         layer52.Move10();
         layer52.Render(screen, NULL);
 
-        layer61.Move9();
-        layer61.Render(screen, NULL);
-        layer62.Move10();
-        layer62.Render(screen, NULL);
-
 
         butt.Show(screen);
         p_player.Show(screen);
@@ -250,7 +240,7 @@ int Level2::CreateLevel(SDL_Renderer* screen, int& score)
         {
             Mix_HaltMusic();
             score = p_player.GetPoint();
-            return 11;
+            return 13;
         }
         if (v == 1)
         {

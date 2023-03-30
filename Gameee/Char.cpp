@@ -139,7 +139,7 @@ void Char::Movement(SDL_Event events, int x)
 void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* screen, int& ef, int& niw)
 {
     int ak = 0;
-    int x1 = x / TILE_SIZE; ;//(rect_.x) / TILE_SIZE ;
+    int x1 = x / TILE_SIZE; //(rect_.x) / TILE_SIZE ;
     int y1 = 1;//(rect_.y) / TILE_SIZE;
     int val = g_map.tile[y1][x1];
     int val2 = g_map.tile[8][x1];
@@ -154,7 +154,7 @@ void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* scr
                     ak = 1;
                     g_map.tile[y1][x1] = 0;
                     StreakPlus(1);
-                    PointPlus(1);
+                    PointPlus(2);
                     ef = 1;
                     niw = 1;
                 }
@@ -163,7 +163,7 @@ void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* scr
                     ak = 1;
                     run = 1;
                     StreakPlus(1);
-                    PointPlus(1);
+                    PointPlus(2);
                     ef = 1;
                 }
                 if (val == 6)
@@ -183,8 +183,8 @@ void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* scr
                     ak = 1;
                     g_map.tile[8][x1] = 0;
                     StreakPlus(1);
-                    PointPlus(1);
-                    ef = 1;
+                    PointPlus(2);
+                    ef = 3;
                     niw = 1;
                 }
                 if (val2 == 3)
@@ -192,8 +192,8 @@ void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* scr
                     ak = 1;
                     run = 1;
                     StreakPlus(1);
-                    PointPlus(1);
-                    ef = 1;
+                    PointPlus(2);
+                    ef = 3;
                 }
                 if (val2 == 6)
                 {
@@ -209,6 +209,14 @@ void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* scr
         if (val != 3 || val2 !=3)
         {
             run = 0;
+        }
+        if (val == 6)
+        {
+            ef = 2;
+        }
+        if (val2 == 6)
+        {
+            ef = 4;
         }
         niw = 0;
     }
@@ -231,7 +239,7 @@ void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* scr
                         g_map.tile[y2][x2] = 0;
                         StreakPlus(1);
                         PointPlus(1);
-                        ef = 1;
+                        ef = 2;
                         niw = 1;
                     }
                     if (val3 == 3)
@@ -239,7 +247,7 @@ void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* scr
                         run = 1;
                         StreakPlus(1);
                         PointPlus(1);
-                        ef = 1;
+                        ef = 2;
                     }
                     if (val3 == 6)
                     {
@@ -257,7 +265,7 @@ void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* scr
                         g_map.tile[8][x2] = 0;
                         StreakPlus(1);
                         PointPlus(1);
-                        ef = 1;
+                        ef = 4;
                         niw = 1;
                     }
                     if (val4 == 3)
@@ -265,7 +273,7 @@ void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* scr
                         run = 1;
                         StreakPlus(1);
                         PointPlus(1);
-                        ef = 1;
+                        ef = 4;
                     }
                     if (val4 == 6)
                     {
@@ -280,6 +288,14 @@ void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* scr
             if (val3 != 3 || val4!=3)
             {
                 run = 0;
+            }
+            if (val3 == 6)
+            {
+                ef = 1;
+            }
+            if (val4 == 6)
+            {
+                ef = 3;
             }
             niw = 0;
         }

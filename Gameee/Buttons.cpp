@@ -9,15 +9,19 @@ Button::Button()
 
 }
 
-void Button::set_clips()
+
+void Button::set_button_clips(int x)
 {
 	for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
 	{
 		frame_clip_[i].x = 0;
-		frame_clip_[i].y = i * 200;
-		frame_clip_[i].w = BUTTON_WIDTH;
-		frame_clip_[i].h = BUTTON_HEIGHT;
+		frame_clip_[i].y = i * x;
+		frame_clip_[i].w = x;
+		frame_clip_[i].h = x;
 	}
+	BUTTON_WIDTH = x;
+	BUTTON_HEIGHT = x;
+
 }
 
 bool Button::LoadImg(std::string path, SDL_Renderer* screen)

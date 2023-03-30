@@ -18,6 +18,9 @@ public:
 	void LoadMap(const char* name);
 	void DrawMap(SDL_Renderer* des);
 	void LoadMapTiles(SDL_Renderer* screen);
+	void LoadMapTiles2(SDL_Renderer* screen);
+	void LoadMapTiles3(SDL_Renderer* screen);
+	void LoadMapTiles4(SDL_Renderer* screen);
 	void MapMove();
 
 	Map GetMap() const { return game_map_; }
