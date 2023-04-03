@@ -29,6 +29,7 @@ bool Text::loadFromRenderedText(TTF_Font* gFont, SDL_Renderer* screen)
         }
 
         //Get rid of old surface
+       // SDL_DestroyTexture(texture_);
         SDL_FreeSurface(textSurface);
     }
 

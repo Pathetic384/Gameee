@@ -19,7 +19,7 @@ bool InitData()
     if (ret < 0) return false;
 
     //Create window
-    g_window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    g_window = SDL_CreateWindow("Crappy Rhythm Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (g_window == NULL)
     {
         return false;
@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
     Level3 lev3;
     Level4 lev4;
 
-    int action = 1;
+    int action = 4;
 
     int score = 0;
     int high_score = 0;
@@ -103,7 +103,6 @@ int main(int argc, char* argv[])
 
         if (action == 2)
         {
-            Mix_HaltMusic();
             action = menuing.CreateLevels(g_screen, high_score, high_score2, high_score3, high_score4, per, per2, per3, per4);
         }
 
@@ -127,7 +126,7 @@ int main(int argc, char* argv[])
             action = menuing.CreateTutorial(g_screen);
         }
 
-        if (action == 8)
+       /* if (action == 8)
         {
             action = lev2.CreateLevel(g_screen, score2);
         }
@@ -152,9 +151,9 @@ int main(int argc, char* argv[])
         if (action == 13)
         {
             action = menuing.CreateResult(g_screen, score4, high_score4, per4);
-        }
+        } */
     }
-     close();
+     close(); 
      return 0;
 }
 

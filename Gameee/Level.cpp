@@ -58,6 +58,11 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
     butt.set_button_clips(65);
     butt.Set(1125, 10);
 
+    Button butt2;
+    butt2.LoadImg("img//buttons//continue.png", screen);
+    butt2.set_button_clips(200);
+    butt2.Set(500, 300);
+
     Effects eff;
     eff.LoadImg("img//ee.png", screen);
     eff.set_clips();
@@ -91,6 +96,7 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
     Mix_Music* mus;
     mus = Mix_LoadMUS("songs//Roll.mp3");
     Mix_PlayMusic(mus, 1);
+    Mix_PauseMusic();
 
     Text textin;
     textin.setColor(2);
@@ -100,10 +106,16 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
 
     int run = 0;
     int xmove = 0;
-    int t = 160;
+    double t = 160;
+
+    int idk = 0;
+
+    int speed = 0;
+    int speedtemp = 0;
 
     int niw = 0;
     int v = 0;
+    int v2 = 0;
     int ef = 0;
 
     int x = 200;
@@ -112,12 +124,13 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
     SDL_Event e;
     while (is_quit == false)
     {
+        v2 = 0;
         Map help = game_map.GetMap();
 
         if (mapend == 1)
         {
-            p_player.MapMo(help, 5);
-            t += 5;
+            p_player.MapMo(help, speed);
+            t += speed;
         }
 
         while (SDL_PollEvent(&e))
@@ -133,6 +146,7 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
 
             p_player.Movement(e, x);
             butt.handleEvent(e, v);
+            butt2.handleEvent(e, v2);
             p_player.Mappa(help, t, e, run, screen, ef, niw);
         }
 
@@ -142,6 +156,10 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
         p_player.CheckEnd(help, t, mapend);
         p_player.Long2(help, t, run, niw);
 
+        //int bonusspeed = speed * 2;
+        
+
+
         if (run == 1)
         {
             p_player.Long(help, t);
@@ -149,40 +167,37 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
             p_player.PointPlus(0.1);
         }
 
-        
-        
-        layer11.Move();
+        if (idk == 1)
+        {
+            layer11.Move();
+            layer12.Move2();
+            layer21.Move3();
+            layer22.Move4();
+            layer31.Move5();
+            layer32.Move6();
+            layer41.Move7();
+            layer42.Move8();
+            layer51.Move7();
+            layer52.Move8();
+            layer61.Move9();
+            layer62.Move10();
+        }   
+
         layer11.Render(screen, NULL);
-        layer12.Move2();
         layer12.Render(screen, NULL);
-
-        layer21.Move3();
         layer21.Render(screen, NULL);
-        layer22.Move4();
         layer22.Render(screen, NULL);
-
-        layer31.Move5();
         layer31.Render(screen, NULL);
-        layer32.Move6();
         layer32.Render(screen, NULL);
-
-        layer41.Move7();
         layer41.Render(screen, NULL);
-        layer42.Move8();
         layer42.Render(screen, NULL);
-
-        layer51.Move7();
         layer51.Render(screen, NULL);
-        layer52.Move8();
-        layer52.Render(screen, NULL); 
-
-        layer61.Move9();
+        layer52.Render(screen, NULL);
         layer61.Render(screen, NULL);
-        layer62.Move10();
         layer62.Render(screen, NULL);
 
-
         butt.Show(screen);
+        butt2.Show(screen);
         p_player.Show(screen);
 
         game_map.SetMap(help);
@@ -219,6 +234,9 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
         eff2.Show(screen);
         ef = 0;
 
+        textin.Free();
+        pointin.Free();
+
         int poi = p_player.GetStreak();
         std::string poin = std::to_string(poi);
         std::string point = "Streak: ";
@@ -236,20 +254,11 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
         pointin.RenderText(screen, 20, 20);
 
         SDL_RenderPresent(screen);
-        
-
-        int imp_time = fps.get_ticks();
-        int time_for_one_frame = 1000 / FRAMES_PER_SECOND;
-        if (imp_time < time_for_one_frame)
-        {
-            SDL_Delay(time_for_one_frame - imp_time);
-        }
        
-
         if (mapend == 0)
         {
             Mix_HaltMusic();
-            score = p_player.GetPoint();
+
             return 5;
         }
         if (v == 1)
@@ -257,16 +266,35 @@ int Level::CreateLevel(SDL_Renderer* screen, int& score)
             Mix_PauseMusic();
             Menu temp;
             int tmp = temp.CreatePause(screen);
-            if (tmp == 4)
+            if (tmp == 4 && idk == 1)
             {
                 v = 0;
                 Mix_ResumeMusic();
             }
+            else if (tmp == 4 && idk == 0)
+            {
+                v = 0;
+            }
             else if (tmp == 2)
             {
-                Mix_ResumeMusic();
+                Mix_HaltMusic();
                 return 2;
             }
+        }
+
+        if (v2 == 1)
+        {
+            idk = 1;
+            Mix_ResumeMusic();
+            speed = 8;
+            butt2.Free();
+        }
+
+        int imp_time = fps.get_ticks();
+        int time_for_one_frame = 1000 / FRAMES_PER_SECOND;
+        if (imp_time < time_for_one_frame)
+        {
+            SDL_Delay(time_for_one_frame - imp_time);
         }
     }
     //close();

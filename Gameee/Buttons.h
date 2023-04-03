@@ -24,6 +24,8 @@ public:
 
 	void Show(SDL_Renderer* des);
 
+	void Free();
+
 	void Set(int x, int y)
 	{
 		rect_.x = x;

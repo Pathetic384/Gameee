@@ -32,7 +32,7 @@ int Menu::CreateMenu(SDL_Renderer* screen)
     menu7.LoadImg("img//menu//04.png", screen);
     Base menu8;
     menu8.LoadImg("img//menu//04.png", screen);
-    menu8.SetRect(1200, 0);
+    menu8.SetRect(1200, 0); 
 
     Base menu9;
     menu9.LoadImg("img//menu//05.png", screen);
@@ -103,7 +103,7 @@ int Menu::CreateMenu(SDL_Renderer* screen)
 
         SDL_RenderPresent(screen);
        
-        SDL_Delay(100);
+        SDL_Delay(75);
         
 
         if (b1 == 1) return 2;
@@ -205,6 +205,18 @@ int Menu::CreateLevels(SDL_Renderer* screen, int& score, int& score2, int& score
         but4.Show(screen);
         but5.Show(screen);
 
+        scori.Free();
+        scorie.Free();
+        perc.Free();
+        scori2.Free();
+        scorie2.Free();
+        perc2.Free();
+        scori3.Free();
+        scorie3.Free();
+        perc3.Free();
+        scori4.Free();
+        scorie4.Free();
+        perc4.Free();
 
         std::string highscore = "HighScore:";
         scorie.SetText(highscore);
@@ -275,7 +287,7 @@ int Menu::CreateLevels(SDL_Renderer* screen, int& score, int& score2, int& score
 
         SDL_RenderPresent(screen);
 
-        SDL_Delay(150);
+        SDL_Delay(1);
 
         if (b1 == 1) return 4;
         if (b2 == 1) return 1;
@@ -327,6 +339,10 @@ int Menu::CreateResult(SDL_Renderer* screen, int& score, int& high_score, int& p
 
         menu.Render(screen);
 
+        scorie.Free();
+        high.Free();
+        percent.Free();
+
         std::string temp = std::to_string(score);
         scorie.SetText(temp);
         scorie.loadFromRenderedText(font2, screen);
@@ -353,7 +369,7 @@ int Menu::CreateResult(SDL_Renderer* screen, int& score, int& high_score, int& p
 
         SDL_RenderPresent(screen);
 
-        SDL_Delay(100);
+        SDL_Delay(1);
 
         if (b2 == 1) return 2;
     }
@@ -401,7 +417,7 @@ int Menu::CreatePause(SDL_Renderer* screen)
 
         SDL_RenderPresent(screen);
 
-        SDL_Delay(100);
+        SDL_Delay(1);
 
         if (b1 == 1) return 4;
         if (b2 == 1) return 2;
@@ -528,7 +544,7 @@ int Menu::CreateTutorial(SDL_Renderer* screen)
 
         SDL_RenderPresent(screen);
         
-        SDL_Delay(100);
+        SDL_Delay(1);
     }
     return 3;
 }

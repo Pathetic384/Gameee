@@ -113,3 +113,8 @@ void Button::Show(SDL_Renderer* des)
 	SDL_RenderCopy(des, p_object_, currentClip, &renderQuad);
 
 }
+
+void Button::Free()
+{
+	p_object_ = NULL;
+}

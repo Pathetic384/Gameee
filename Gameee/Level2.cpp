@@ -11,6 +11,7 @@ Level2::~Level2()
 {
 
 }
+/*
 int Level2::CreateLevel(SDL_Renderer* screen, int& score)
 {
     Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
@@ -106,6 +107,8 @@ int Level2::CreateLevel(SDL_Renderer* screen, int& score)
     int v = 0;
     int ef = 0;
 
+    int speed = 10;
+
     int x = 200;
     int mapend = 1;
     bool is_quit = false;
@@ -116,8 +119,8 @@ int Level2::CreateLevel(SDL_Renderer* screen, int& score)
 
         if (mapend == 1)
         {
-            p_player.MapMo(help, 5);
-            t += 5;
+            p_player.MapMo(help, speed);
+            t += speed;
         }
 
         while (SDL_PollEvent(&e))
@@ -139,7 +142,7 @@ int Level2::CreateLevel(SDL_Renderer* screen, int& score)
         SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(screen);
 
-        p_player.CheckEnd(help, t, mapend);
+        p_player.CheckEnd(help, t, mapend, speed);
         p_player.Long2(help, t, run, niw);
 
         if (run == 1)
@@ -219,6 +222,9 @@ int Level2::CreateLevel(SDL_Renderer* screen, int& score)
         eff2.Show(screen);
         ef = 0;
 
+        textin.Free();
+        pointin.Free();
+
         int poi = p_player.GetStreak();
         std::string poin = std::to_string(poi);
         std::string point = "Streak: ";
@@ -273,3 +279,4 @@ int Level2::CreateLevel(SDL_Renderer* screen, int& score)
     Mix_HaltMusic();
     return 3;
 }
+*/

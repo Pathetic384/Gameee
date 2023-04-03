@@ -71,3 +71,80 @@ private:
     Effects Eff;
     Effects Eff2;
 };
+
+
+
+
+
+
+/*
+#define jumpval 20;
+
+class Char : public Base
+{
+public:
+    Char();
+    ~Char();
+
+    enum WalkType
+    {
+        WALK_NONE = 0,
+        WALK_RIGHT = 1,
+        WALK_LEFT = 2,
+    };
+
+    void set_clips();
+
+    void MapMo(Map& map_data, int move)
+    {
+        map_data.start_x_ += move;
+    };
+
+    bool LoadImg(std::string path, SDL_Renderer* screen);
+    void Show(SDL_Renderer* des);
+    //void HandleInputAction(SDL_Event events, SDL_Renderer * screen);
+
+    void SetMapXY(const int map_x, const int map_y) { map_x_ = map_x, map_y_ = map_y; };
+
+    void Movement(SDL_Event events, int x);
+    void Set() {
+        rect_.x = 130;
+        rect_.y = 400;
+    };
+
+    void Mappa(Map& g_map, int x);
+
+    void CheckEnd(Map& g_map, int x, int& end, int& speed);
+
+
+private:
+
+    SDL_Rect frame_clip_[54];
+    int map_x_;
+    int map_y_;
+
+    int width_frame_;
+    int height_frame_;
+
+    int frame_;
+    int status_;
+    Input input_type_;
+
+    Effects Eff;
+    Effects Eff2;
+
+    bool fly;
+    bool ground;
+    bool jump;
+    bool jumping;
+    bool hold;
+
+    int down;
+    int up;
+    
+    int t;
+    int t2;
+    int t3;
+    int t4;
+};
+*/
