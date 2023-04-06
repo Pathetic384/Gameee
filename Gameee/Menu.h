@@ -19,7 +19,7 @@ public:
 
 	int CreateLevels(SDL_Renderer* screen, int& score, int& score2, int& score3, int& score4, int& per, int& per2, int& per3, int& per4);
 
-	int CreateResult(SDL_Renderer* screen, int& score, int& high_score, int& per);
+	int CreateSlimes(SDL_Renderer* screen, int& sprite);
 
 	int CreatePause(SDL_Renderer* screen);
 

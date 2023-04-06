@@ -69,11 +69,12 @@ int main(int argc, char* argv[])
     }
     Menu menuing;
     Level lev;
-    Level2 lev2;
-    Level3 lev3;
-    Level4 lev4;
+    //Level2 lev2;
+    //Level3 lev3;
+   // Level4 lev4;
 
     int action = 4;
+    int sprite = 2;
 
     int score = 0;
     int high_score = 0;
@@ -106,14 +107,14 @@ int main(int argc, char* argv[])
             action = menuing.CreateLevels(g_screen, high_score, high_score2, high_score3, high_score4, per, per2, per3, per4);
         }
 
-        if (action == 4)
-        {
-            action = lev.CreateLevel(g_screen, score);
-        }
-
         if (action == 5)
         {
-            action = menuing.CreateResult(g_screen, score, high_score, per);
+            action = menuing.CreateSlimes(g_screen, sprite);
+        }
+
+        if (action == 4)
+        {
+            action = lev.CreateLevel(g_screen, high_score, sprite, per);
         }
 
         if (action == 6)

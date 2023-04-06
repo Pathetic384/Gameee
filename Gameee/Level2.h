@@ -9,7 +9,7 @@
 #include <string>
 #include "Menu.h"
 #include "Buttons.h"
-
+/*
 class Level2
 {
 public:
@@ -21,3 +21,4 @@ public:
 private:
 
 };
+*/

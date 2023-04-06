@@ -15,7 +15,7 @@ public:
 	Level();
 	~Level();
 
-	int CreateLevel(SDL_Renderer* screen, int& score);
+	int CreateLevel(SDL_Renderer* screen, int& high_score, int sprite, int& per);
 
 private:
 

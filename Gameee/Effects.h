@@ -15,7 +15,6 @@ public:
 
 	void Reset()
 	{
-		frame_ = 0;
 		framerun = true;
 	}
 

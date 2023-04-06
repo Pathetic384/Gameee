@@ -8,8 +8,6 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include <iostream>
-static char g_name_main_right[] = { "img//player_right.png" };
-static char helpme[] = { "D://VS//Gameee//Gameee//img//button.png" };
 
 static  SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;

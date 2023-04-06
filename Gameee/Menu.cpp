@@ -55,6 +55,12 @@ int Menu::CreateMenu(SDL_Renderer* screen)
     but3.set_button_clips(200);
     but3.Set(840, 300);
 
+    int b4 = 0;
+    Button but4;
+    but4.LoadImg("img//buttons//close.png", screen);
+    but4.set_button_clips(150);
+    but4.Set(530, 150);
+
     bool quit = false;
     SDL_Event e;
     while (quit == false)
@@ -69,6 +75,7 @@ int Menu::CreateMenu(SDL_Renderer* screen)
             but.handleEvent(e,b1);
             but2.handleEvent(e,b2);
             but3.handleEvent(e, b3);
+            but4.handleEvent(e, b4);
         }
 
         SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
@@ -99,6 +106,7 @@ int Menu::CreateMenu(SDL_Renderer* screen)
         but.Show(screen);
         but2.Show(screen);
         but3.Show(screen);
+        but4.Show(screen);
        
 
         SDL_RenderPresent(screen);
@@ -109,6 +117,7 @@ int Menu::CreateMenu(SDL_Renderer* screen)
         if (b1 == 1) return 2;
         if (b2 == 1) return 3;
         if (b3 == 1) return 7;
+        if (b4 == 1) return 5;
     }
     return 3;
 }
@@ -298,84 +307,6 @@ int Menu::CreateLevels(SDL_Renderer* screen, int& score, int& score2, int& score
     return 3;
 }
 
-int Menu::CreateResult(SDL_Renderer* screen, int& score, int& high_score, int& per)
-{
-    Base menu;
-    bool ret1 = menu.LoadImg("img//res.png", screen);
-    if (ret1 == false) std::cout << 11;
-
-    if (score > high_score) high_score = score;
-
-    int b2 = 0;
-    Button but2;
-    but2.LoadImg("img//buttons//menu.png", screen);
-    but2.set_button_clips(200);
-    but2.Set(970, 245);
-
-    Text scorie;
-    scorie.setColor(0);
-
-    Text high;
-    high.setColor(0);
-
-    Text percent;
-    percent.setColor(1);
-
-    bool quit = false;
-    SDL_Event e;
-    while (quit == false)
-    {
-        while (SDL_PollEvent(&e))
-        {
-            if (e.type == SDL_QUIT)
-            {
-                quit = true;
-                return 3;
-            }
-            but2.handleEvent(e, b2);
-        }
-        SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-        SDL_RenderClear(screen);
-
-        menu.Render(screen);
-
-        scorie.Free();
-        high.Free();
-        percent.Free();
-
-        std::string temp = std::to_string(score);
-        scorie.SetText(temp);
-        scorie.loadFromRenderedText(font2, screen);
-        scorie.RenderText(screen, 550, 250);
-
-        std::string temp2 = std::to_string(high_score);
-        high.SetText(temp2);
-        high.loadFromRenderedText(font2, screen);
-        high.RenderText(screen, 550, 400);
-
-        double tmp = high_score * 100;
-        tmp = tmp / 500;
-
-        per = tmp;
-        std::string temp3 = std::to_string(per);
-        std::string percentage;
-        percentage += temp3;
-        percentage += '%';
-        percent.SetText(percentage);
-        percent.loadFromRenderedText(font2, screen);
-        percent.RenderText(screen, 800, 95);
-
-        but2.Show(screen);
-
-        SDL_RenderPresent(screen);
-
-        SDL_Delay(1);
-
-        if (b2 == 1) return 2;
-    }
-    return 3;
-}
-
 int Menu::CreatePause(SDL_Renderer* screen)
 {
     Base menu;
@@ -545,6 +476,113 @@ int Menu::CreateTutorial(SDL_Renderer* screen)
         SDL_RenderPresent(screen);
         
         SDL_Delay(1);
+    }
+    return 3;
+}
+
+
+int Menu::CreateSlimes(SDL_Renderer* screen, int& sprite)
+{
+    Base menu;
+    bool ret1 = menu.LoadImg("img//paris.png", screen);
+    if (ret1 == false) std::cout << 11;
+
+    int b1 = 0;
+    Button but;
+    but.LoadImg("img//buttons//ok.png", screen);
+    but.set_button_clips(100);
+    but.Set(0, 250);
+
+    int b2 = 0;
+    Button but2;
+    but2.LoadImg("img//buttons//ok.png", screen);
+    but2.set_button_clips(100);
+    but2.Set(200, 250);
+
+    int b3 = 0;
+    Button but3;
+    but3.LoadImg("img//buttons//ok.png", screen);
+    but3.set_button_clips(100);
+    but3.Set(400, 250);
+
+    int b4 = 0;
+    Button but4;
+    but4.LoadImg("img//buttons//ok.png", screen);
+    but4.set_button_clips(100);
+    but4.Set(600, 250);
+
+    int b5 = 0;
+    Button but5;
+    but5.LoadImg("img//buttons//ok.png", screen);
+    but5.set_button_clips(100);
+    but5.Set(800, 250);
+
+    int b6 = 0;
+    Button but6;
+    but6.LoadImg("img//buttons//return.png", screen);
+    but6.set_button_clips(65);
+    but6.Set(1125, 10);
+
+    bool quit = false;
+    SDL_Event e;
+    while (quit == false)
+    {
+        while (SDL_PollEvent(&e))
+        {
+            if (e.type == SDL_QUIT)
+            {
+                quit = true;
+                return 3;
+            }
+            but.handleEvent(e, b1);
+            but2.handleEvent(e, b2);
+            but3.handleEvent(e, b3);
+            but4.handleEvent(e, b4);
+            but5.handleEvent(e, b5);
+            but6.handleEvent(e, b6);
+        }
+        SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+        SDL_RenderClear(screen);
+
+        menu.Render(screen);
+        but.Show(screen);
+        but2.Show(screen);
+        but3.Show(screen);
+        but4.Show(screen);
+        but5.Show(screen);
+        but6.Show(screen);
+
+        SDL_RenderPresent(screen);
+
+        SDL_Delay(1);
+
+        if (b1 == 1)
+        {
+            sprite = 1;
+            return 1;
+        }
+        if (b2 == 1)
+        {
+            sprite = 2;
+            return 1;
+        }
+        if (b3 == 1)
+        {
+            sprite = 3;
+            return 1;
+        }
+        if (b4 == 1)
+        {
+            sprite = 4;
+            return 1;
+        }
+        if (b5 == 1)
+        {
+            sprite = 5;
+            return 1;
+        }
+
+        
     }
     return 3;
 }

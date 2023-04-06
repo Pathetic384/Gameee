@@ -149,7 +149,6 @@
     <ClCompile Include="Level3.cpp" />
     <ClCompile Include="Level4.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Res.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -166,7 +165,6 @@
     <ClInclude Include="Level3.h" />
     <ClInclude Include="Level4.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Particle.h" />
     <ClInclude Include="Res.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Timer.h" />

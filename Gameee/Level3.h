@@ -8,7 +8,7 @@
 #include <string>
 #include "Menu.h"
 #include "Buttons.h"
-
+/*
 class Level3
 {
 public:
@@ -20,3 +20,4 @@ public:
 private:
 
 };
+*/

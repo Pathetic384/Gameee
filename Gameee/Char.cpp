@@ -1,24 +1,70 @@
 #include "Char.h"
 
+
 Char::Char()
 {
+    move = "img//slime2//move.png";
+    jump = "img//slime2//jump.png";
+    die = "img//slime2//dead.png";
+    win = "img//slime2//win.png";
+    ufo = "img//slime2//ufo.png";
+    ufo_dead = "img//slime2//ufo-dead.png";
+    plane_up = "img//slime2//up.png";
+    plane_down = "img//slime2//down.png";
+    plane_dead = "img//slime2//plane-dead.png";
+
     frame_ = 0;
+    x_pos_ = 0;
+    y_pos_ = 0;
+    x_val_ = 0;
+    y_val_ = 0;
+    
     width_frame_ = 0;
     height_frame_ = 0;
-    status_ = 0;
-    input_type_.left_ = 0;
-    input_type_.right_ = 0;
-    input_type_.down_ = 0;
-    input_type_.jump_ = 0;
-    input_type_.up_ = 0;
-    streak = 0;
-    points = 0;
+    
+    on_ground_ = false;
+    dead = false;
+    won = false;
 
+    jumping = 0;
+    holding = 0;
+
+    movin = 0;
+    mode = 1;
 }
+
 Char::~Char()
 {
-
+    Free();
 }
+
+void Char::HandleInputAction(SDL_Event events, SDL_Renderer* screen)
+{
+    if (dead == false)
+    {
+        if (events.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (events.button.button == SDL_BUTTON_RIGHT)
+            {
+                jumping = 1;
+                holding = 1;
+            }
+        }
+        else if (events.type == SDL_MOUSEBUTTONUP)
+        {
+            if (events.button.button == SDL_BUTTON_RIGHT)
+            {
+                holding = 0;
+            }
+        }
+    }
+    else
+    {
+        jumping = 0;
+        holding = 0;
+    }
+}
+
 
 bool Char::LoadImg(std::string path, SDL_Renderer* screen)
 {
@@ -26,7 +72,7 @@ bool Char::LoadImg(std::string path, SDL_Renderer* screen)
 
     if (ret == true)
     {
-        width_frame_ = rect_.w / 45;
+        width_frame_ = rect_.w / 20;
         height_frame_ = rect_.h;
     }
 
@@ -35,7 +81,7 @@ bool Char::LoadImg(std::string path, SDL_Renderer* screen)
 
 void Char::set_clips()
 {
-    for (int i = 0; i < 45; ++i)
+    for (int i = 0; i < 20; i++)
     {
         frame_clip_[i].x = width_frame_ * i;
         frame_clip_[i].y = 0;
@@ -46,580 +92,409 @@ void Char::set_clips()
 
 void Char::Show(SDL_Renderer* des)
 {
-
-    if (status_ == 0)
-    {
-        if (input_type_.left_ == 0 && input_type_.right_ == 0)
-        {
-            frame_++;
-        }
-        if (frame_ >= 43)
-        {
-            frame_ = 0;
-        }
-        if (input_type_.left_ == 0 && input_type_.right_ == 1)
-        {
-            frame_ = 44;
-        }
-        if (input_type_.left_ == 1 && input_type_.right_ == 0)
-        {
-            frame_ = 43;
-        }
-    }
-
-    if (status_ == 1)
-    {
-        if (input_type_.right_ == 1 && input_type_.left_ == 1) frame_++;
-
-        if (frame_ >= 43)
-        {
-            frame_ = 0;
-        }
-        if (input_type_.left_ == 0 && input_type_.right_ == 1)
-        {
-            frame_ = 44;
-        }
-        if (input_type_.left_ == 1 && input_type_.right_ == 0)
-        {
-            frame_ = 43;
-        }
-    }
-
-
-    SDL_Rect* currentClip = &frame_clip_[frame_];
-    SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
-
-
-    SDL_RenderCopy(des, p_object_, currentClip, &renderQuad);
-
-}
-
-void Char::Movement(SDL_Event events, int x)
-{
-    if (events.type == SDL_KEYDOWN)
-    {
-        // while (x > 200) x -= 10;
-        if (events.key.keysym.sym == SDLK_j)
-        {
-            rect_.y += 200;
-            //status_ = WALK_RIGHT;
-            input_type_.right_ = 1;
-            status_ = 1;
-
-        }
-        else if (events.key.keysym.sym == SDLK_f)
-        {
-            rect_.y -= 200;
-            //status_ = WALK_LEFT;
-            input_type_.left_ = 1;
-            status_ = 1;
-        }
-        if (rect_.y > 600) rect_.y -= 200;
-        if (rect_.y < 0) rect_.y += 200;
-    }
-    else if (events.type == SDL_KEYUP)
-    {
-        if (events.key.keysym.sym == SDLK_j)
-        {
-            rect_.y -= 200;
-            input_type_.right_ = 0;
-            status_ = 0;
-        }
-        else if (events.key.keysym.sym == SDLK_f)
-        {
-            rect_.y += 200;
-            input_type_.left_ = 0;
-            status_ = 0;
-        }
-        if (rect_.y > 600) rect_.y -= 200;
-        if (rect_.y < 0) rect_.y += 200;
-    }
-}
-
-void Char::Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* screen, int& ef, int& niw)
-{
-    int ak = 0;
-    int x1 = x / TILE_SIZE; //(rect_.x) / TILE_SIZE ;
-    int y1 = 1;//(rect_.y) / TILE_SIZE;
-    int val = g_map.tile[y1][x1];
-    int val2 = g_map.tile[8][x1];
-    if (event.type == SDL_KEYDOWN)
-    {
-        if (event.key.keysym.sym == SDLK_f)
-        {
-            if (niw == 0)
-            {
-                if (val == 4)
-                {
-                    ak = 1;
-                    g_map.tile[y1][x1] = 0;
-                    StreakPlus(1);
-                    PointPlus(2);
-                    ef = 1;
-                    niw = 1;
-                }
-                if (val == 3)
-                {
-                    ak = 1;
-                    run = 1;
-                    StreakPlus(1);
-                    PointPlus(2);
-                    ef = 1;
-                }
-                if (val == 6)
-                {
-                    streak = 0;
-                    run = 0;
-                    niw = 1;
-                }
-            }
-        }
-        if (event.key.keysym.sym == SDLK_j)
-        {
-            if (niw == 0)
-            {
-                if (val2 == 4)
-                {
-                    ak = 1;
-                    g_map.tile[8][x1] = 0;
-                    StreakPlus(1);
-                    PointPlus(2);
-                    ef = 3;
-                    niw = 1;
-                }
-                if (val2 == 3)
-                {
-                    ak = 1;
-                    run = 1;
-                    StreakPlus(1);
-                    PointPlus(2);
-                    ef = 3;
-                }
-                if (val2 == 6)
-                {
-                    streak = 0;
-                    run = 0;
-                    niw = 1;
-                }
-            }
-        }
-    }
-    if (event.type == SDL_KEYUP)
-    {
-        if (val != 3 || val2 != 3)
-        {
-            run = 0;
-        }
-        if (val == 6)
-        {
-            ef = 2;
-        }
-        if (val2 == 6)
-        {
-            ef = 4;
-        }
-        niw = 0;
-    }
-
-    if (ak == 0)
-    {
-        int x2 = x / TILE_SIZE + 1; //(rect_.x) / TILE_SIZE ;
-        int y2 = 1;//(rect_.y) / TILE_SIZE;
-        int val3 = g_map.tile[y2][x2];
-        int val4 = g_map.tile[8][x2];
-        if (event.type == SDL_KEYDOWN)
-        {
-            if (niw == 2) niw = 0;
-            if (event.key.keysym.sym == SDLK_f)
-            {
-                if (niw == 0)
-                {
-                    if (val3 == 4)
-                    {
-                        g_map.tile[y2][x2] = 0;
-                        StreakPlus(1);
-                        PointPlus(1);
-                        ef = 2;
-                        niw = 1;
-                    }
-                    if (val3 == 3)
-                    {
-                        run = 1;
-                        StreakPlus(1);
-                        PointPlus(1);
-                        ef = 2;
-                    }
-                    if (val3 == 6)
-                    {
-                        //streak = 0;
-                        //run = 0;
-                    }
-                }
-            }
-            if (event.key.keysym.sym == SDLK_j)
-            {
-                if (niw == 0)
-                {
-                    if (val4 == 4)
-                    {
-                        g_map.tile[8][x2] = 0;
-                        StreakPlus(1);
-                        PointPlus(1);
-                        ef = 4;
-                        niw = 1;
-                    }
-                    if (val4 == 3)
-                    {
-                        run = 1;
-                        StreakPlus(1);
-                        PointPlus(1);
-                        ef = 4;
-                    }
-                    if (val4 == 6)
-                    {
-                        //streak = 0;
-                        //run = 0;
-                    }
-                }
-            }
-        }
-        if (event.type == SDL_KEYUP)
-        {
-            if (val3 != 3 || val4 != 3)
-            {
-                run = 0;
-            }
-            if (val3 == 6)
-            {
-                ef = 1;
-            }
-            if (val4 == 6)
-            {
-                ef = 3;
-            }
-            niw = 0;
-        }
-
-    }
-    if (x >= MAX_MAP_X) x -= 5;
-
-
-}
-
-void Char::Long(Map& map, int x)
-{
-    int x1 = x / TILE_SIZE; ;//(rect_.x) / TILE_SIZE ;
-    int y1 = 1;// (rect_.y) / TILE_SIZE;
-    map.tile[y1][x1] = 0;
-    map.tile[8][x1] = 0;
-}
-
-void Char::Long2(Map& map, int x, int& run, int& niw)
-{
-    int x1 = x / TILE_SIZE;//(rect_.x) / TILE_SIZE ;
-    int y1 = 1;// (rect_.y) / TILE_SIZE;
-    //std::cout << map.tile[y1][x1] << " ";
-    if (map.tile[y1][x1] == 6)
-    {
-        run = 0;
-        //niw = 0;
-    }
-    if (map.tile[8][x1] == 6)
-    {
-        run = 0;
-        //niw = 0;
-    }
-
-}
-
-void Char::StreakPlus(double x)
-{
-    streak += x;
-}
-
-int Char::GetStreak()
-{
-    return streak;
-}
-int Char::GetPoint()
-{
-    return points;
-}
-void Char::PointPlus(double x)
-{
-    if (streak < 10)
-    {
-        points += 5 * x;
-    }
-    else if (streak < 20)
-    {
-        points += 10 * x;
-    }
-    else if (streak < 50)
-    {
-        points += 15 * x;
-    }
-
-}
-
-void Char::CheckEnd(Map& g_map, int x, int& end)
-{
-    int x1 = x / TILE_SIZE - 1;
-    int y1 = 1;
-    int y2 = 8;
-    //std::cout << g_map.tile[y1][x1] << " ";
-    if (g_map.tile[y1][x1] == 4 || g_map.tile[y1][x1] == 3 || g_map.tile[y1][x1] == 5 || g_map.tile[y1][x1] == 9)
-    {
-        streak = 0;
-    }
-    if (g_map.tile[y2][x1] == 4 || g_map.tile[y2][x1] == 3 || g_map.tile[y2][x1] == 5 || g_map.tile[y2][x1] == 9)
-    {
-        streak = 0;
-    }
-    if (g_map.tile[y1][x1] == 7)
-    {
-        end = 0;
-    }
-}
-
-
-
-
-
-
-
-
-
-/*Char::Char()
-{
-    frame_ = 30;
-    width_frame_ = 0;
-    height_frame_ = 0;
-    status_ = 0;
-    input_type_.left_ = 0;
-    input_type_.right_ = 0;
-    input_type_.down_ = 0;
-    input_type_.jump_ = 0;
-    input_type_.up_ = 0;
-    jump = false;
-    jumping = false;
-    fly = 0;
-    up = 20;
-    down = 0;
-    ground = false;
-    hold = false;
-    t = 0;
-    t2 = 0;
-    t3 = 1;
-    t4 = 0;
-}
-Char::~Char()
-{
-
-}
-
-bool Char::LoadImg(std::string path, SDL_Renderer* screen)
-{
-    bool ret = Base::LoadImg(path, screen);
-
-    if (ret == true)
-    {
-        width_frame_ = rect_.w / 54;
-        height_frame_ = rect_.h / 7;
-    }
-
-    return ret;
-}
-
-void Char::set_clips()
-{
-     for (int i = 0; i < 54; ++i)
-     {
-       frame_clip_[i].x = i * 240;
-       frame_clip_[i].y = 0;
-       frame_clip_[i].w = width_frame_;
-       frame_clip_[i].h = height_frame_;
-     }  
-}
-
-void Char::Movement(SDL_Event events, int x)
-{
-    if (events.type == SDL_MOUSEBUTTONDOWN)
-    {
-        if (events.button.button == SDL_BUTTON_LEFT)
-        {
-            jump = true;
-            hold = true;
-        }
-    }
-    if (events.type == SDL_MOUSEBUTTONUP)
-    {
-        if (events.button.button == SDL_BUTTON_LEFT)
-        {
-            hold = false;
-        }
-    }
-
-}
-
-void Char::Show(SDL_Renderer* des)
-{
     
-
-    if (t == 1 || t2 == 1)
+    if (mode == 1)
     {
-        //if (t3 == 0)
+        if (dead == true || won == true)
         {
-           //frame_ = 0;
-            t3 = 1;
+            if(dead == true)      LoadImg(die, des);
+            else    LoadImg(win, des);
         }
-        if (t3 == 1)
+        else
         {
+            if (on_ground_ == true)   LoadImg(move, des);
+            else  LoadImg(jump, des);
+            set_clips();
             frame_++;
-            if (frame_ >= 18)
-            {
-                frame_ = 17;
-            }
+            if (frame_ >= 20)    frame_ = 0;
         }
-
     }
-
-    if (fly == true)
+    if (mode == 2)
     {
-        if (ground == false)
+        if (dead == true)
         {
+            LoadImg(ufo_dead, des);
+        }
+        else
+        {
+            LoadImg(ufo, des);
+            set_clips();
             frame_++;
-            if (frame_ >= 30)
-            {
-                frame_ = 29;
-            }
+            if (frame_ >= 20)    frame_ = 0;
         }
     }
-    if (ground == true && hold == false)
-    {
-        t3 = 0;
-        frame_++;
-        if (frame_ >= 54)
-            frame_ = 31;
-    }
-
-    SDL_Rect* currentClip = &frame_clip_[frame_];
-    SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
-
-
-    SDL_RenderCopy(des, p_object_, currentClip, &renderQuad);
-
-}
-
-void Char::Mappa(Map& g_map, int x)
-{
-    int x1 = x / TILE_SIZE;
-    int x2 = (x + 64) / TILE_SIZE;
-    int y1 = (rect_.y) / TILE_SIZE;
-    int y2 = (rect_.y + 216 - 71) / TILE_SIZE;
-    int val = g_map.tile[y2][x1];
-    int val2 = g_map.tile[y2][x2];
-
-
-    if (val == 2 || val2 == 2)
-    {
-        ground = true;
-    }
-    else
-    {
-        fly = true;
-        ground = false;
-    }
-
-
-    if (jump == true)
-    {
-        if (ground == true && t == 0)
-        {
-            t = 1;
-        }
-        if (t == 1)
-        {
-            fly = false;
-            up -= 2;
-            if (up < 0)
-            {
-                jump = false;
-                fly = true;
-                up = jumpval;
-                t = 0;
-            }
-            rect_.y -= up;
-            
-        }
-    }
-
-    if (hold == true && t == 0)
-    {
-        if (ground == true)
-        {
-            t2 = 1;
-        }
-        if (t2 == 1)
-        {
-            fly = false;
-            up -= 2;
-            if (up < 0)
-            {
-                fly = true;
-                up = jumpval;
-                t2 = 0;
-            }
-            rect_.y -= up;
-        }
-    }
-
-    if (hold == false) t2 = 0;
-
-    if (fly == true)
-    {
-        if (ground == false)
-        {
-            down += 2;
-            if (down > 8) down = 8;
-            rect_.y += down;
-        }
-    }
-    
-    std::cout << int(ground)<<" "<<t<<t2 <<"    ";
-    
-}
-
-
-void Char::CheckEnd(Map& g_map, int x, int& end, int& speed)
-{
-    int x1 = x / TILE_SIZE - 1;
-    int y1 = 1;
-    int y2 = 8;
-    int y3 = 0;
-
-    if (g_map.tile[y1][x1] == 4 || g_map.tile[y1][x1] == 3 || g_map.tile[y1][x1] == 5 || g_map.tile[y1][x1] == 9)
-    {
         
-    }
-    if (g_map.tile[y2][x1] == 4 || g_map.tile[y2][x1] == 3 || g_map.tile[y2][x1] == 5 || g_map.tile[y2][x1] == 9)
+    if (mode == 3)
     {
-       
+        if (dead == true)
+        {
+            LoadImg(plane_dead, des);
+        }
+        else
+        {
+            if (holding == true) LoadImg(plane_up, des);
+            else   LoadImg(plane_down, des);
+            set_clips();
+            frame_++;
+            if (frame_ >= 20)    frame_ = 0;
+        }
     }
-    if (g_map.tile[y3][x1] == 7)
+
+     
+        rect_.x = x_pos_ -map_x_;
+        rect_.y = y_pos_ -map_y_;
+
+        SDL_Rect* currentClip = &frame_clip_[frame_];
+        SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
+        if (currentClip != NULL)
+        {
+            renderQuad.w = currentClip->w;
+            renderQuad.h = currentClip->h;
+        }
+
+        SDL_RenderCopy(des, p_object_, currentClip, &renderQuad);
+    
+}
+
+void Char::Physics(Map& g_map, int speed)
+{
+ 
+    if (mode == 1 || mode == 2 || mode ==4)
     {
-        end = 0;
+        y_val_ += GRAVITY_SPEED;
+
+        if (y_val_ >= MAX_FALL_SPEED)
+        {
+            y_val_ = MAX_FALL_SPEED;
+        }
     }
-    if (g_map.tile[y3][x1] == 1)
+
+    if (mode == 1 || mode == 4)
     {
-        g_map.tile[y3][x1] = 0;
-        speed++;
+        if (jumping == 1)
+        {
+            if (on_ground_ == true)
+            {
+                y_val_ = -PLAYER_HIGHT_VAL;
+            }
+            on_ground_ = false;
+            jumping = 0;
+        }
+        if (holding == 1)
+        {
+            if (on_ground_ == true)
+            {
+                y_val_ = -PLAYER_HIGHT_VAL;
+            }
+            on_ground_ = false;
+        }
     }
-    if (g_map.tile[y3][x1] == 8)
+
+    if (mode == 2)
     {
-        g_map.tile[y3][x1] = 0;
-        speed--;
+        if (jumping == 1)
+        {
+            y_val_ = -PLAYER_HIGHT_VAL;
+            jumping = 0;
+        }
+    }
+
+    if (mode == 3)
+    {
+        if (holding == 1)
+        {
+            y_val_ = -speed;
+        }
+        if (holding == 0)
+        {
+            y_val_ = speed;
+        }
+    }
+
+}
+
+
+void Char::Collide(Map& g_map, int& action)
+{
+    int x1 = 0;
+    int x2 = 0;
+    int y1 = 0;
+    int y2 = 0;
+
+    if (mode == 1 || mode == 2)
+    {
+        //Check Horizontal
+        int height_min = height_frame_ < TILE_SIZE ? height_frame_ : TILE_SIZE;
+
+        x1 = (x_pos_ + x_val_) / TILE_SIZE;
+        x2 = (x_pos_ + x_val_ + width_frame_ - 1 - 10) / TILE_SIZE;
+
+        y1 = (y_pos_) / TILE_SIZE;
+        y2 = (y_pos_ + height_min - 1) / TILE_SIZE;
+
+        if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+        {
+            if (x_val_ > 0)
+            {
+                int val1 = g_map.tile[y1][x2];
+                int val2 = g_map.tile[y2][x2];
+
+                if (val1 != 0 || val2 != 0)
+                {
+                    x_pos_ = x2 * TILE_SIZE;
+                    x_pos_ -= width_frame_;
+                    x_pos_ += 11;
+                    x_val_ = 0;
+
+                    action = 3;
+                    dead = true;
+                }
+
+            }
+        }
+
+        // Check vertical
+        int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
+
+        x1 = (x_pos_ + 20) / TILE_SIZE;
+        x2 = (x_pos_ + width_min) / TILE_SIZE;
+
+        y1 = (y_pos_ + y_val_) / TILE_SIZE;
+        y2 = (y_pos_ + y_val_ + height_frame_ - 1) / TILE_SIZE;
+
+        if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+        {
+            if (y_val_ > 0)
+            {
+                //Similar for vertical
+                int val1 = g_map.tile[y2][x1];
+                int val2 = g_map.tile[y2][x2];
+
+
+                if (val1 != 0 || val2 != 0)
+                {
+                    y_pos_ = y2 * TILE_SIZE;
+                    y_pos_ -= height_frame_;
+                    y_pos_ += 1;
+
+                    y_val_ = 0;
+
+                    on_ground_ = true;
+                }
+
+                if (val1 == 9 || val2 == 9)
+                {
+                    action = 3;
+                    dead = true;
+                }
+
+            }
+            else if (y_val_ < 0)
+            {
+                int val1 = g_map.tile[y1][x1];
+                int val2 = g_map.tile[y1][x2];
+
+                if ((val1 != BLANK_TILE) || (val2 != BLANK_TILE))
+                {
+                    y_pos_ = (y1 + 1) * TILE_SIZE;
+                    //y_pos_ -= 10;
+                    y_val_ = 0;
+                }
+
+            }
+        }
+    }
+    else if (mode == 3)
+    {
+        //Check Horizontal
+        int height_min = height_frame_ < TILE_SIZE ? height_frame_ : TILE_SIZE;
+
+        x1 = (x_pos_ + x_val_) / TILE_SIZE;
+        x2 = (x_pos_ + x_val_ + width_frame_ - 1 - 10) / TILE_SIZE;
+
+        y1 = (y_pos_) / TILE_SIZE;
+        y2 = (y_pos_ + height_min - 1) / TILE_SIZE;
+
+        if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+        {
+            if (x_val_ > 0)
+            {
+                int val1 = g_map.tile[y1][x2];
+                int val2 = g_map.tile[y2][x2];
+
+                if (val1 != 0 || val2 != 0)
+                {
+                    x_pos_ = x2 * TILE_SIZE;
+                    x_pos_ -= width_frame_;
+                    x_pos_ += 11;
+                    x_val_ = 0;
+
+                    action = 3;
+                    dead = true;
+                }
+
+            }
+        }
+
+        // Check vertical
+        int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
+
+        x1 = (x_pos_) / TILE_SIZE;
+        x2 = (x_pos_ + width_min) / TILE_SIZE;
+
+        y1 = (y_pos_ + y_val_) / TILE_SIZE;
+        y2 = (y_pos_ + y_val_ + height_frame_ - 1) / TILE_SIZE;
+
+        if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+        {
+            if (y_val_ > 0)
+            {
+                //Similar for vertical
+                int val1 = g_map.tile[y2][x2];
+                int val2 = g_map.tile[y2][x2];
+
+
+                if (val1 != 0 || val2 != 0)
+                {
+                    y_pos_ = y2 * TILE_SIZE;
+                    y_pos_ -= height_frame_;
+                    y_pos_ += 1;
+
+                    y_val_ = 0;
+
+                    on_ground_ = true;
+                }
+
+                if (val1 == 9 || val2 == 9)
+                {
+                    action = 3;
+                    dead = true;
+                }
+
+            }
+            else if (y_val_ < 0)
+            {
+                int val1 = g_map.tile[y1][x2];
+                int val2 = g_map.tile[y1][x2];
+
+                if ((val1 != BLANK_TILE) || (val2 != BLANK_TILE))
+                {
+                    y_pos_ = (y1 + 1) * TILE_SIZE;
+                    //y_pos_ -= 10;
+                    y_val_ = 0;
+                }
+
+            }
+        }
+    }
+
+    //If there is not collision with map tile. 
+    x_pos_ += x_val_;
+    y_pos_ += y_val_;
+
+
+    if (y_pos_ < 0)
+    {
+        y_pos_ = 0;
+    }
+    else if (y_pos_ + height_frame_ >= 600)
+    {
+        y_pos_ = 600 - height_frame_;
     }
     
-   
-}   */
+    
+}
+
+
+void Char::CheckMode(Map& g_map, int& model, int& action)
+{
+   int x = (x_pos_) / TILE_SIZE;
+
+   if (g_map.tile[1][x] == 6)
+   {
+       mode = 2;
+       model = mode;
+   }
+
+   if (g_map.tile[1][x] == 7)
+   {
+       mode = 3;
+       model = mode;
+   }
+
+   if (g_map.tile[1][x] == 8)
+   {
+       mode = 1;
+       model = mode;
+   }
+
+   if (g_map.tile[1][x] == 5)
+   {
+       action = 4;
+       won = true;
+   }
+}
+
+void Char::SetSprite(int sprite)
+{
+    if (sprite == 1)
+    {
+        move = "img//slime1//move.png";
+        jump = "img//slime1//jump.png";
+        die = "img//slime1//dead.png";
+        win = "img//slime1//win.png";
+        ufo = "img//slime1//ufo.png";
+        ufo_dead = "img//slime1//ufo-dead.png";
+        plane_up = "img//slime1//up.png";
+        plane_down = "img//slime1//down.png";
+        plane_dead = "img//slime1//plane-dead.png";
+    }
+    if (sprite == 2)
+    {
+        move = "img//slime2//move.png";
+        jump = "img//slime2//jump.png";
+        die = "img//slime2//dead.png";
+        win = "img//slime2//win.png";
+        ufo = "img//slime2//ufo.png";
+        ufo_dead = "img//slime2//ufo-dead.png";
+        plane_up = "img//slime2//up.png";
+        plane_down = "img//slime1//down.png";
+        plane_dead = "img//slime1//plane-dead.png";
+    }
+    if (sprite == 3)
+    {
+        move = "img//slime3//move.png";
+        jump = "img//slime3//jump.png";
+        die = "img//slime3//dead.png";
+        win = "img//slime3//win.png";
+        ufo = "img//slime3//ufo.png";
+        ufo_dead = "img//slime3//ufo-dead.png";
+        plane_up = "img//slime3//up.png";
+        plane_down = "img//slime3//down.png";
+        plane_dead = "img//slime3//plane-dead.png";
+    }
+    if (sprite == 4)
+    {
+        move = "img//slime4//move.png";
+        jump = "img//slime4//jump.png";
+        die = "img//slime4//dead.png";
+        win = "img//slime4//win.png";
+        ufo = "img//slime4//ufo.png";
+        ufo_dead = "img//slime4//ufo-dead.png";
+        plane_up = "img//slime4//up.png";
+        plane_down = "img//slime4//down.png";
+        plane_dead = "img//slime4//plane-dead.png";
+    }
+    if (sprite == 5)
+    {
+        move = "img//slime5//move.png";
+        jump = "img//slime5//jump.png";
+        die = "img//slime5//dead.png";
+        win = "img//slime5//win.png";
+        ufo = "img//slime5//ufo.png";
+        ufo_dead = "img//slime5//ufo-dead.png";
+        plane_up = "img//slime5//up.png";
+        plane_down = "img//slime5//down.png";
+        plane_dead = "img//slime5//plane-dead.png";
+    }
+}

@@ -7,71 +7,96 @@
 #include "Effects.h"
 
 
+#define GRAVITY_SPEED 1
+#define MAX_FALL_SPEED 10
+#define PLAYER_HIGHT_VAL 15
+
+
 class Char : public Base
 {
 public:
     Char();
     ~Char();
 
-    enum WalkType
-    {
-        WALK_NONE = 0,
-        WALK_RIGHT = 1,
-        WALK_LEFT = 2,
-    };
-
     void set_clips();
-
-    void MapMo(Map& map_data, int move)
-    {
-        map_data.start_x_ += move;
-    };
-
     bool LoadImg(std::string path, SDL_Renderer* screen);
     void Show(SDL_Renderer* des);
-    //void HandleInputAction(SDL_Event events, SDL_Renderer * screen);
-
+    void HandleInputAction(SDL_Event events, SDL_Renderer* screen);
     void SetMapXY(const int map_x, const int map_y) { map_x_ = map_x, map_y_ = map_y; };
 
-    void Movement(SDL_Event events, int x);
-    void Set() {
-        rect_.x = 120;
-        rect_.y = 255;
+    void Physics(Map& g_map, int speed);
+
+    void Collide(Map& g_map, int& action);
+
+    void CheckMode(Map& g_map, int& model, int& action);
+
+    void SetSprite(int t);
+
+    void Set()
+    {
+        x_pos_ = 100;
+        y_pos_ = 0;
+    }
+
+    void SetSpeed(Map& map_data, int speed)
+    {
+        map_data.start_x_ += speed;
+        x_val_ = speed;
     };
+    
+    void SetFrame()
+    {
+        frame_ = 0;
+    }
 
-    void Mappa(Map& g_map, int x, SDL_Event event, int& run, SDL_Renderer* screen, int& ef, int& niw);
-
-    void Long(Map& g_map, int x);
-    void Long2(Map& g_map, int x, int& run, int& niw);
-
-    int GetStreak();
-    void StreakPlus(double x);
-
-    void CheckEnd(Map& g_map, int x, int& end);
-
-    void PointPlus(double x);
-    int GetPoint();
+    int GetX()
+    {
+        return rect_.x;
+    }
+    int GetY()
+    {
+        return rect_.y;
+    }
 
 private:
 
-    SDL_Rect frame_clip_[45];
+    bool is_jump_;
+    int frame_;
+
+    SDL_Rect frame_clip_[20];
+    
+    int jumping;
+    int holding;
+
+    bool on_ground_;
+    bool dead;
+    bool won;
+
     int map_x_;
     int map_y_;
+
+    float x_val_;
+    float y_val_;
+    float x_pos_;
+    float y_pos_;
+
+    int movin;
+
+    int mode;
 
     int width_frame_;
     int height_frame_;
 
-    int frame_;
-    int status_;
-    Input input_type_;
-
-    double streak;
-    double points;
-
-    Effects Eff;
-    Effects Eff2;
+    std::string move;
+    std::string jump;
+    std::string die;
+    std::string win ;
+    std::string ufo;
+    std::string ufo_dead;
+    std::string plane_up;
+    std::string plane_down;
+    std::string plane_dead;
 };
-
 
 
 
