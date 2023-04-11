@@ -57,9 +57,9 @@ int Menu::CreateMenu(SDL_Renderer* screen)
 
     int b4 = 0;
     Button but4;
-    but4.LoadImg("img//buttons//close.png", screen);
+    but4.LoadImg("img//buttons//pick.png", screen);
     but4.set_button_clips(150);
-    but4.Set(530, 150);
+    but4.Set(525, 200);
 
     bool quit = false;
     SDL_Event e;
@@ -127,6 +127,9 @@ int Menu::CreateLevels(SDL_Renderer* screen, int& score, int& score2, int& score
 
     Base menu;
     menu.LoadImg("img//levels.png", screen);
+    Base select;
+    select.LoadImg("img//res.png", screen);
+    select.SetRect(230, 100);
 
     int b1 = 0;
     Button but;
@@ -158,34 +161,18 @@ int Menu::CreateLevels(SDL_Renderer* screen, int& score, int& score2, int& score
     but5.set_button_clips(75);
     but5.Set(835, 435);
 
-    Text scorie;
-    scorie.setColor(0);
-    Text scori;
-    scori.setColor(0);
+
     Text perc;
     perc.setColor(0);
 
-    Text scorie2;
-    scorie2.setColor(0);
-    Text scori2;
-    scori2.setColor(0);
     Text perc2;
     perc2.setColor(0);
 
-    Text scorie3;
-    scorie3.setColor(0);
-    Text scori3;
-    scori3.setColor(0);
     Text perc3;
     perc3.setColor(0);
 
-    Text scorie4;
-    scorie4.setColor(0);
-    Text scori4;
-    scori4.setColor(0);
     Text perc4;
-    perc4.setColor(0);
-
+    perc4.setColor(2);
 
     bool quit = false;
     SDL_Event e;
@@ -198,11 +185,14 @@ int Menu::CreateLevels(SDL_Renderer* screen, int& score, int& score2, int& score
                 quit = true;
                 return 3;
             }
-            but.handleEvent(e, b1);
-            but2.handleEvent(e, b2);
-            but3.handleEvent(e, b3);
-            but4.handleEvent(e, b4);
-            but5.handleEvent(e, b5);
+            
+            
+                but.handleEvent(e, b1);
+                but2.handleEvent(e, b2);
+                but3.handleEvent(e, b3);
+                but4.handleEvent(e, b4);
+                but5.handleEvent(e, b5);
+            
         }
         SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(screen);
@@ -213,86 +203,50 @@ int Menu::CreateLevels(SDL_Renderer* screen, int& score, int& score2, int& score
         but3.Show(screen);
         but4.Show(screen);
         but5.Show(screen);
+          
+            perc.Free();           
+            perc2.Free();          
+            perc3.Free();         
+            perc4.Free();
 
-        scori.Free();
-        scorie.Free();
-        perc.Free();
-        scori2.Free();
-        scorie2.Free();
-        perc2.Free();
-        scori3.Free();
-        scorie3.Free();
-        perc3.Free();
-        scori4.Free();
-        scorie4.Free();
-        perc4.Free();
+            std::string percent = "Completion:";
+            std::string temp = std::to_string(per);
+            percent += temp;
+            percent += '%';
+            perc.SetText(percent);
+            std::string percent2 = "Completion:";
+            std::string temp2 = std::to_string(per2);
+            percent2 += temp2;
+            percent2 += '%';
+            perc2.SetText(percent2);
+            std::string percent3 = "Completion:";
+            std::string temp3 = std::to_string(per3);
+            percent3 += temp3;
+            percent3 += '%';
+            perc3.SetText(percent3);
+            std::string percent4 = "Completion:";
+            std::string temp4 = std::to_string(per4);
+            percent4 += temp4;
+            percent4 += '%';
+            perc4.SetText(percent4);
 
-        std::string highscore = "HighScore:";
-        scorie.SetText(highscore);
-        std::string tmp = std::to_string(score);
-        scori.SetText(tmp);
-        std::string highscore2 = "HighScore:";
-        scorie2.SetText(highscore2);
-        std::string tmp2 = std::to_string(score2);
-        scori2.SetText(tmp2);
-        std::string highscore3 = "HighScore:";
-        scorie3.SetText(highscore3);
-        std::string tmp3 = std::to_string(score3);
-        scori3.SetText(tmp3);
-        std::string highscore4 = "HighScore:";
-        scorie4.SetText(highscore4);
-        std::string tmp4 = std::to_string(score4);
-        scori4.SetText(tmp4);
 
-        std::string percent = "Completion:";
-        std::string temp = std::to_string(per);
-        percent += temp;
-        percent += '%';
-        perc.SetText(percent);
-        std::string percent2 = "Completion:";
-        std::string temp2 = std::to_string(per2);
-        percent2 += temp2;
-        percent2 += '%';
-        perc2.SetText(percent2);
-        std::string percent3 = "Completion:";
-        std::string temp3 = std::to_string(per3);
-        percent3 += temp3;
-        percent3 += '%';
-        perc3.SetText(percent3);
-        std::string percent4 = "Completion:";
-        std::string temp4 = std::to_string(per4);
-        percent4 += temp4;
-        percent4 += '%';
-        perc4.SetText(percent4);
+          
+            perc.loadFromRenderedText(font3, screen);
+            perc.RenderText(screen, 240, 40);
+
+         
+            perc2.loadFromRenderedText(font3, screen);
+            perc2.RenderText(screen, 775, 40);
+
+       
+            perc3.loadFromRenderedText(font3, screen);
+            perc3.RenderText(screen, 240, 325);
+
+         
+            perc4.loadFromRenderedText(font3, screen);
+            perc4.RenderText(screen, 775, 325);
         
-
-        scorie.loadFromRenderedText(font, screen);
-        scorie.RenderText(screen, 250,25);
-        scori.loadFromRenderedText(font, screen);
-        scori.RenderText(screen, 250, 70);
-        perc.loadFromRenderedText(font3, screen);
-        perc.RenderText(screen, 240, 110);
-
-        scorie2.loadFromRenderedText(font, screen);
-        scorie2.RenderText(screen, 785, 25);
-        scori2.loadFromRenderedText(font, screen);
-        scori2.RenderText(screen, 785, 70);
-        perc2.loadFromRenderedText(font3, screen);
-        perc2.RenderText(screen, 775, 110);
-
-        scorie3.loadFromRenderedText(font, screen);
-        scorie3.RenderText(screen, 250, 310);
-        scori3.loadFromRenderedText(font, screen);
-        scori3.RenderText(screen, 250, 355);
-        perc3.loadFromRenderedText(font3, screen);
-        perc3.RenderText(screen, 240, 399);
-
-        scorie4.loadFromRenderedText(font, screen);
-        scorie4.RenderText(screen, 785, 310);
-        scori4.loadFromRenderedText(font, screen);
-        scori4.RenderText(screen, 785, 355);
-        perc4.loadFromRenderedText(font3, screen);
-        perc4.RenderText(screen, 775, 395);
 
         SDL_RenderPresent(screen);
 
@@ -489,39 +443,33 @@ int Menu::CreateSlimes(SDL_Renderer* screen, int& sprite)
 
     int b1 = 0;
     Button but;
-    but.LoadImg("img//buttons//ok.png", screen);
-    but.set_button_clips(100);
-    but.Set(0, 250);
+    but.LoadImg("img//buttons//slime1.png", screen);
+    but.set_button_clips(200);
+    but.Set(15, 220);
 
     int b2 = 0;
     Button but2;
-    but2.LoadImg("img//buttons//ok.png", screen);
-    but2.set_button_clips(100);
-    but2.Set(200, 250);
+    but2.LoadImg("img//buttons//slime2.png", screen);
+    but2.set_button_clips(200);
+    but2.Set(255, 220);
 
     int b3 = 0;
     Button but3;
-    but3.LoadImg("img//buttons//ok.png", screen);
-    but3.set_button_clips(100);
-    but3.Set(400, 250);
+    but3.LoadImg("img//buttons//slime3.png", screen);
+    but3.set_button_clips(200);
+    but3.Set(505, 220);
 
     int b4 = 0;
     Button but4;
-    but4.LoadImg("img//buttons//ok.png", screen);
-    but4.set_button_clips(100);
-    but4.Set(600, 250);
+    but4.LoadImg("img//buttons//slime4.png", screen);
+    but4.set_button_clips(200);
+    but4.Set(755, 220);
 
     int b5 = 0;
     Button but5;
-    but5.LoadImg("img//buttons//ok.png", screen);
-    but5.set_button_clips(100);
-    but5.Set(800, 250);
-
-    int b6 = 0;
-    Button but6;
-    but6.LoadImg("img//buttons//return.png", screen);
-    but6.set_button_clips(65);
-    but6.Set(1125, 10);
+    but5.LoadImg("img//buttons//slime5.png", screen);
+    but5.set_button_clips(200);
+    but5.Set(985, 220);
 
     bool quit = false;
     SDL_Event e;
@@ -539,7 +487,6 @@ int Menu::CreateSlimes(SDL_Renderer* screen, int& sprite)
             but3.handleEvent(e, b3);
             but4.handleEvent(e, b4);
             but5.handleEvent(e, b5);
-            but6.handleEvent(e, b6);
         }
         SDL_SetRenderDrawColor(screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(screen);
@@ -550,7 +497,6 @@ int Menu::CreateSlimes(SDL_Renderer* screen, int& sprite)
         but3.Show(screen);
         but4.Show(screen);
         but5.Show(screen);
-        but6.Show(screen);
 
         SDL_RenderPresent(screen);
 

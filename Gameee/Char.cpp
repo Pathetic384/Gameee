@@ -3,15 +3,15 @@
 
 Char::Char()
 {
-    move = "img//slime2//move.png";
-    jump = "img//slime2//jump.png";
-    die = "img//slime2//dead.png";
-    win = "img//slime2//win.png";
-    ufo = "img//slime2//ufo.png";
-    ufo_dead = "img//slime2//ufo-dead.png";
-    plane_up = "img//slime2//up.png";
-    plane_down = "img//slime2//down.png";
-    plane_dead = "img//slime2//plane-dead.png";
+    move = "img//slime5//move.png";
+    jump = "img//slime5//jump.png";
+    die = "img//slime5//dead.png";
+    win = "img//slime5//win.png";
+    ufo = "img//slime5//ufo.png";
+    ufo_dead = "img//slime5//ufo-dead.png";
+    plane_up = "img//slime5//up.png";
+    plane_down = "img//slime5//down.png";
+    plane_dead = "img//slime5//plane-dead.png";
 
     frame_ = 0;
     x_pos_ = 0;
@@ -159,9 +159,21 @@ void Char::Show(SDL_Renderer* des)
 void Char::Physics(Map& g_map, int speed)
 {
  
-    if (mode == 1 || mode == 2 || mode ==4)
+    if (mode == 1 || mode == 4)
     {
-        y_val_ += GRAVITY_SPEED;
+      //  if (dead == false)
+        {
+            y_val_ += GRAVITY_SPEED;
+
+            if (y_val_ >= MAX_FALL_SPEED)
+            {
+                y_val_ = MAX_FALL_SPEED;
+            }
+        }
+    }
+    if (mode == 2)
+    {
+        y_val_ += 0.7;
 
         if (y_val_ >= MAX_FALL_SPEED)
         {
@@ -171,22 +183,25 @@ void Char::Physics(Map& g_map, int speed)
 
     if (mode == 1 || mode == 4)
     {
-        if (jumping == 1)
+        if (dead == false)
         {
-            if (on_ground_ == true)
+            if (jumping == 1)
             {
-                y_val_ = -PLAYER_HIGHT_VAL;
+                if (on_ground_ == true)
+                {
+                    y_val_ = -PLAYER_HIGHT_VAL;
+                }
+                on_ground_ = false;
+                jumping = 0;
             }
-            on_ground_ = false;
-            jumping = 0;
-        }
-        if (holding == 1)
-        {
-            if (on_ground_ == true)
+            if (holding == 1)
             {
-                y_val_ = -PLAYER_HIGHT_VAL;
+                if (on_ground_ == true)
+                {
+                    y_val_ = -PLAYER_HIGHT_VAL;
+                }
+                on_ground_ = false;
             }
-            on_ground_ = false;
         }
     }
 
@@ -194,7 +209,7 @@ void Char::Physics(Map& g_map, int speed)
     {
         if (jumping == 1)
         {
-            y_val_ = -PLAYER_HIGHT_VAL;
+            y_val_ = -10;
             jumping = 0;
         }
     }
@@ -220,14 +235,113 @@ void Char::Collide(Map& g_map, int& action)
     int x2 = 0;
     int y1 = 0;
     int y2 = 0;
-
-    if (mode == 1 || mode == 2)
+    
+    if (mode == 1)
     {
         //Check Horizontal
         int height_min = height_frame_ < TILE_SIZE ? height_frame_ : TILE_SIZE;
 
         x1 = (x_pos_ + x_val_) / TILE_SIZE;
-        x2 = (x_pos_ + x_val_ + width_frame_ - 1 - 10) / TILE_SIZE;
+        x2 = (x_pos_ + x_val_ + width_frame_ - 1 - 15) / TILE_SIZE;
+
+        y1 = (y_pos_) / TILE_SIZE;
+        y2 = (y_pos_ + height_min - 1) / TILE_SIZE;
+
+        if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+        {
+            if (x_val_ > 0)
+            {
+                int val1 = g_map.tile[y1][x2];
+                int val2 = g_map.tile[y2][x2];
+                //colide right
+                if (val1 != 4 && val2 != 4 && val1 != 5 && val2 != 5 && val1 != 6 && val2 != 6 && val1 != 7 && val2 != 7 && val1 != 8 && val2 != 8 && val1 != 10 && val2 != 10 && val1 != 11 && val2 != 11)
+                {
+                    if (val1 != 0 || val2 != 0)
+                    {
+                        x_pos_ = x2 * TILE_SIZE;
+                        x_pos_ -= width_frame_;
+                        x_pos_ += 11;
+                        x_val_ = 0;
+
+                        action = 3;
+                        dead = true;
+                    }
+                }
+
+            }
+        }
+
+        // Check vertical
+        int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
+
+        x1 = (x_pos_) / TILE_SIZE;
+        x2 = (x_pos_ + width_min) / TILE_SIZE;
+
+        y1 = (y_pos_ + y_val_) / TILE_SIZE;
+        y2 = (y_pos_ + y_val_ + height_frame_ - 1) / TILE_SIZE;
+
+        if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+        {
+            if (y_val_ > 0)
+            {
+                //Similar for vertical
+                int val1 = g_map.tile[y2][x1];
+                int val2 = g_map.tile[y2][x2];
+
+                int val3 = g_map.tile[y2-1][x1];
+                int val4 = g_map.tile[y2-1][x2];
+
+                if (val1 != 4 && val2 != 4 && val1 != 5 && val2 != 5 && val1 != 6 && val2 != 6 && val1 != 7 && val2 != 7 && val1 != 8 && val2 != 8 && val1 != 10 && val2 != 10 && val1 != 11 && val2 != 11)
+                {
+                    if (val3 == 9 || val4 == 9)
+                    {
+                        action = 3;
+                        dead = true;
+                    }
+                    if (val1 != 0 || val2 != 0)// || val3 == 9 || val4 == 9)
+                    {
+                       if (val1 != 9 && val2 != 9)
+                        {
+                            y_pos_ = y2 * TILE_SIZE;
+                            y_pos_ -= height_frame_;
+                            y_pos_ += 1;
+
+                            y_val_ = 0;
+
+                            on_ground_ = true;
+                        }
+                    }
+                    //collide spike
+                    
+                }
+
+            }
+            else if (y_val_ < 0)
+            {
+                int val1 = g_map.tile[y1][x1];
+                int val2 = g_map.tile[y1][x2];
+                if (val1 != 4 && val2 != 4 && val1 != 5 && val2 != 5 && val1 != 6 && val2 != 6 && val1 != 7 && val2 != 7 && val1 != 8 && val2 != 8 && val1 != 10 && val2 != 10 && val1 != 11 && val2 != 11)
+                {
+                    if ((val1 != BLANK_TILE) || (val2 != BLANK_TILE))
+                    {
+                        y_pos_ = (y1 + 1) * TILE_SIZE;
+                        //y_pos_ -= 10;
+                        y_val_ = 0;
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    if (mode == 2)
+    {
+        //Check Horizontal
+        int height_min = height_frame_ < TILE_SIZE ? height_frame_ : TILE_SIZE;
+
+        x1 = (x_pos_ + x_val_) / TILE_SIZE;
+        x2 = (x_pos_ + x_val_ + width_frame_ - 1 - 15) / TILE_SIZE;
 
         y1 = (y_pos_) / TILE_SIZE;
         y2 = (y_pos_ + height_min - 1) / TILE_SIZE;
@@ -239,15 +353,18 @@ void Char::Collide(Map& g_map, int& action)
                 int val1 = g_map.tile[y1][x2];
                 int val2 = g_map.tile[y2][x2];
 
-                if (val1 != 0 || val2 != 0)
+                if (val1 != 4 && val2 != 4 && val1 != 5 && val2 != 5 && val1 != 6 && val2 != 6 && val1 != 7 && val2 != 7 && val1 != 8 && val2 != 8 && val1 != 10 && val2 != 10 && val1 != 11 && val2 != 11)
                 {
-                    x_pos_ = x2 * TILE_SIZE;
-                    x_pos_ -= width_frame_;
-                    x_pos_ += 11;
-                    x_val_ = 0;
+                    if (val1 != 0 || val2 != 0)
+                    {
+                        x_pos_ = x2 * TILE_SIZE;
+                        x_pos_ -= width_frame_;
+                        x_pos_ += 11;
+                        x_val_ = 0;
 
-                    action = 3;
-                    dead = true;
+                        action = 3;
+                        dead = true;
+                    }
                 }
 
             }
@@ -270,22 +387,26 @@ void Char::Collide(Map& g_map, int& action)
                 int val1 = g_map.tile[y2][x1];
                 int val2 = g_map.tile[y2][x2];
 
-
-                if (val1 != 0 || val2 != 0)
+                if (val1 != 4 && val2 != 4 && val1 != 5 && val2 != 5 && val1 != 6 && val2 != 6 && val1 != 7 && val2 != 7 && val1 != 8 && val2 != 8 && val1 != 10 && val2 != 10 && val1 != 11 && val2 != 11)
                 {
-                    y_pos_ = y2 * TILE_SIZE;
-                    y_pos_ -= height_frame_;
-                    y_pos_ += 1;
+                    if (val1 != 0 || val2 != 0)
+                    {
+                        y_pos_ = y2 * TILE_SIZE;
+                        y_pos_ -= height_frame_;
+                        y_pos_ += 1;
 
-                    y_val_ = 0;
+                        y_val_ = 0;
+                        action = 3;
+                        dead = true;
+                        on_ground_ = true;
+                    }
 
-                    on_ground_ = true;
-                }
-
-                if (val1 == 9 || val2 == 9)
-                {
-                    action = 3;
-                    dead = true;
+                    if (val1 == 9 || val2 == 9)
+                    {
+                        action = 3;
+                        dead = true;
+                   
+                    }
                 }
 
             }
@@ -293,17 +414,24 @@ void Char::Collide(Map& g_map, int& action)
             {
                 int val1 = g_map.tile[y1][x1];
                 int val2 = g_map.tile[y1][x2];
-
-                if ((val1 != BLANK_TILE) || (val2 != BLANK_TILE))
+                if (val1 != 4 && val2 != 4 && val1 != 5 && val2 != 5 && val1 != 6 && val2 != 6 && val1 != 7 && val2 != 7 && val1 != 8 && val2 != 8 && val1 != 10 && val2 != 10 && val1 != 11 && val2 != 11)
                 {
-                    y_pos_ = (y1 + 1) * TILE_SIZE;
-                    //y_pos_ -= 10;
-                    y_val_ = 0;
+                    if ((val1 != BLANK_TILE) || (val2 != BLANK_TILE))
+                    {
+                        y_pos_ = (y1 + 1) * TILE_SIZE;
+                        //y_pos_ -= 10;
+                        y_val_ = 0;
+                        action = 3;
+                        dead = true;
+                        
+                    }
                 }
 
             }
         }
     }
+
+
     else if (mode == 3)
     {
         //Check Horizontal
@@ -321,16 +449,18 @@ void Char::Collide(Map& g_map, int& action)
             {
                 int val1 = g_map.tile[y1][x2];
                 int val2 = g_map.tile[y2][x2];
-
-                if (val1 != 0 || val2 != 0)
+                if (val1 != 4 && val2 != 4 && val1 != 5 && val2 != 5 && val1 != 6 && val2 != 6 && val1 != 7 && val2 != 7 && val1 != 8 && val2 != 8 && val1 != 10 && val2 != 10 && val1 != 11 && val2 != 11)
                 {
-                    x_pos_ = x2 * TILE_SIZE;
-                    x_pos_ -= width_frame_;
-                    x_pos_ += 11;
-                    x_val_ = 0;
+                    if (val1 != 0 || val2 != 0)
+                    {
+                        x_pos_ = x2 * TILE_SIZE;
+                        x_pos_ -= width_frame_;
+                        x_pos_ += 11;
+                        x_val_ = 0;
 
-                    action = 3;
-                    dead = true;
+                        action = 3;
+                        dead = true;
+                    }
                 }
 
             }
@@ -353,35 +483,41 @@ void Char::Collide(Map& g_map, int& action)
                 int val1 = g_map.tile[y2][x2];
                 int val2 = g_map.tile[y2][x2];
 
-
-                if (val1 != 0 || val2 != 0)
+                if (val1 != 4 && val2 != 4 && val1 != 5 && val2 != 5 && val1 != 6 && val2 != 6 && val1 != 7 && val2 != 7 && val1 != 8 && val2 != 8 && val1 != 10 && val2 != 10 && val1 != 11 && val2 != 11)
                 {
-                    y_pos_ = y2 * TILE_SIZE;
-                    y_pos_ -= height_frame_;
-                    y_pos_ += 1;
+                    if (val1 != 0 || val2 != 0)
+                    {
+                        y_pos_ = y2 * TILE_SIZE;
+                        y_pos_ -= height_frame_;
+                        y_pos_ += 1;
 
-                    y_val_ = 0;
+                        y_val_ = 0;
+                        action = 3;
+                        dead = true;
+                        on_ground_ = true;
+                    }
 
-                    on_ground_ = true;
+                    if (val1 == 9 || val2 == 9)
+                    {
+                        action = 3;
+                        dead = true;
+                    }
                 }
-
-                if (val1 == 9 || val2 == 9)
-                {
-                    action = 3;
-                    dead = true;
-                }
-
             }
             else if (y_val_ < 0)
             {
                 int val1 = g_map.tile[y1][x2];
                 int val2 = g_map.tile[y1][x2];
-
-                if ((val1 != BLANK_TILE) || (val2 != BLANK_TILE))
+                if (val1 != 4 && val2 != 4 && val1 != 5 && val2 != 5 && val1 != 6 && val2 != 6 && val1 != 7 && val2 != 7 && val1 != 8 && val2 != 8 && val1 != 10 && val2 != 10 && val1 != 11 && val2 != 11)
                 {
-                    y_pos_ = (y1 + 1) * TILE_SIZE;
-                    //y_pos_ -= 10;
-                    y_val_ = 0;
+                    if ((val1 != BLANK_TILE) || (val2 != BLANK_TILE))
+                    {
+                        y_pos_ = (y1 + 1) * TILE_SIZE;
+                        //y_pos_ -= 10;
+                        y_val_ = 0;
+                        action = 3;
+                        dead = true;
+                    }
                 }
 
             }
@@ -396,10 +532,20 @@ void Char::Collide(Map& g_map, int& action)
     if (y_pos_ < 0)
     {
         y_pos_ = 0;
+        if (mode == 2)// || mode == 3)
+        {
+            action = 3;
+            dead = true;
+        }
     }
     else if (y_pos_ + height_frame_ >= 600)
     {
         y_pos_ = 600 - height_frame_;
+        if (mode == 2 || mode == 1)// || mode == 3)
+        {
+            action = 3;
+            dead = true;
+        }
     }
     
     
@@ -410,25 +556,25 @@ void Char::CheckMode(Map& g_map, int& model, int& action)
 {
    int x = (x_pos_) / TILE_SIZE;
 
-   if (g_map.tile[1][x] == 6)
+   if (g_map.tile[0][x] == 6)
    {
        mode = 2;
        model = mode;
    }
 
-   if (g_map.tile[1][x] == 7)
+   if (g_map.tile[0][x] == 7)
    {
        mode = 3;
        model = mode;
    }
 
-   if (g_map.tile[1][x] == 8)
+   if (g_map.tile[0][x] == 8)
    {
        mode = 1;
-       model = mode;
+       model = 1;
    }
 
-   if (g_map.tile[1][x] == 5)
+   if (g_map.tile[0][x] == 5)
    {
        action = 4;
        won = true;

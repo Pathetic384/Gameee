@@ -9,7 +9,7 @@
 
 #define GRAVITY_SPEED 1
 #define MAX_FALL_SPEED 10
-#define PLAYER_HIGHT_VAL 15
+#define PLAYER_HIGHT_VAL 17
 
 
 class Char : public Base

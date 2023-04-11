@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Effects.h"
 #include "Res.h"
-/*
+
 Level4::Level4()
 {
 
@@ -12,7 +12,7 @@ Level4::~Level4()
 {
 
 }
-int Level4::CreateLevel(SDL_Renderer* screen, int& score)
+int Level4::CreateLevel(SDL_Renderer* screen, int& high_score, int sprite, int& percentage)
 {
     Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
     ImpTimer fps;
@@ -39,10 +39,11 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& score)
 
     Base res;
     res.LoadImg("img//res.png", screen);
-    res.SetRect(300, 150);
+    res.SetRect(230, 100);
 
     Char p_player;
-    p_player.LoadImg("img//slime1//move.png", screen);
+    p_player.SetSprite(sprite);
+    //p_player.LoadImg("img//slime1//move.png", screen);
     p_player.set_clips();
     p_player.Set();
 
@@ -57,25 +58,33 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& score)
     butt2.Set(500, 300);
 
     Button butt3;
-    butt3.LoadImg("img//buttons//return.png", screen);
-    butt3.set_button_clips(65);
-    butt3.Set(900, 300);
+    butt3.LoadImg("img//buttons//greturn.png", screen);
+    butt3.set_button_clips(100);
+    butt3.Set(870, 260);
 
     Button butt4;
-    butt4.LoadImg("img//buttons//menu.png", screen);
-    butt4.set_button_clips(200);
-    butt4.Set(200, 300);
+    butt4.LoadImg("img//buttons//gmenu.png", screen);
+    butt4.set_button_clips(100);
+    butt4.Set(240, 260);
 
     Effects eff;
     eff.LoadImg("img//ee.png", screen);
     eff.set_clips();
 
+    Effects exx;
+    if (sprite == 1)        exx.LoadImg("img//ex1.png", screen);
+    if (sprite == 2)       exx.LoadImg("img//ex2.png", screen);
+    if (sprite == 3)       exx.LoadImg("img//ex3.png", screen);
+    if (sprite == 4)       exx.LoadImg("img//ex4.png", screen);
+    if (sprite == 5)       exx.LoadImg("img//ex5.png", screen);
+    exx.set_clips();
+
     GameMap game_map;
-    game_map.LoadMap("map//map01.dat");
-    game_map.LoadMapTiles(screen);
+    game_map.LoadMap("map4//map01.dat");
+    game_map.LoadMapTiles4(screen);
 
     Mix_Music* mus;
-    mus = Mix_LoadMUS("songs//Roll.mp3");
+    mus = Mix_LoadMUS("songs//Kickback.mp3");
     Mix_PlayMusic(mus, 1);
     Mix_PauseMusic();
 
@@ -119,7 +128,16 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& score)
         //Events
         while (SDL_PollEvent(&e))
         {
-
+            if (e.type == SDL_KEYDOWN)
+            {
+                if (action != 3 && action != 4)
+                {
+                    if (e.key.keysym.sym == SDLK_SPACE)
+                    {
+                        v = 1;
+                    }
+                }
+            }
             if (e.type == SDL_QUIT)
             {
                 is_quit = true;
@@ -141,15 +159,22 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& score)
 
 
         Map ga_map = game_map.GetMap();
-        p_player.CheckToMap(ga_map, action);
-        p_player.CheckMode(ga_map, mode);
+        p_player.Collide(ga_map, action);
+        p_player.CheckMode(ga_map, mode, action);
         if (action == 3)
         {
-            if (explode == 0) eff.Reset();
+            if (explode == 0) exx.Reset();
             speed = 0;
             startin = 0;
             explode = 1;
         }
+        if (action == 4)
+        {
+            eff.Reset();
+            speed = 0;
+            startin = 0;
+        }
+
 
         //Load background
         if (mode == 1)
@@ -171,12 +196,12 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& score)
         {
             if (m2 == 0)
             {
-                layer11.LoadImg("img//bk4//2//1.png", screen);       layer12.LoadImg("img//bk4//2//1.png", screen);
-                layer21.LoadImg("img//bk4//2//2.png", screen);       layer22.LoadImg("img//bk4//2//2.png", screen);
-                layer31.LoadImg("img//bk4//2//3.png", screen);       layer32.LoadImg("img//bk4//2//3.png", screen);
-                layer41.LoadImg("img//bk4//2//4.png", screen);       layer42.LoadImg("img//bk4//2//4.png", screen);
-                layer51.LoadImg("img//bk4//2//5.png", screen);       layer52.LoadImg("img//bk4//2//5.png", screen);
-                layer61.LoadImg("img//bk4//2//6.png", screen);       layer62.LoadImg("img//bk4//2//6.png", screen);
+                layer11.LoadImg("img//bk4//1//1.png", screen);       layer12.LoadImg("img//bk4//1//1.png", screen);
+                layer21.LoadImg("img//bk4//1//2.png", screen);       layer22.LoadImg("img//bk4//1//2.png", screen);
+                layer31.LoadImg("img//bk4//1//3.png", screen);       layer32.LoadImg("img//bk4//1//3.png", screen);
+                layer41.LoadImg("img//bk4//1//4.png", screen);       layer42.LoadImg("img//bk4//1//4.png", screen);
+                layer51.LoadImg("img//bk4//1//5.png", screen);       layer52.LoadImg("img//bk4//1//5.png", screen);
+                layer61.LoadImg("img//bk4//1//6.png", screen);       layer62.LoadImg("img//bk4//1//6.png", screen);
             }
             m1 = 0;
             m2 = 1;
@@ -186,14 +211,14 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& score)
         {
             if (m3 == 0)
             {
-                layer11.LoadImg("img//bk4//3//1.png", screen);       layer12.LoadImg("img//bk1//3//1.png", screen);
-                layer21.LoadImg("img//bk4//3//2.png", screen);       layer22.LoadImg("img//bk1//3//2.png", screen);
-                layer31.LoadImg("img//bk4//3//3.png", screen);       layer32.LoadImg("img//bk1//3//3.png", screen);
-                layer41.LoadImg("img//bk4//3//4.png", screen);       layer42.LoadImg("img//bk1//3//4.png", screen);
-                layer51.LoadImg("img//bk4//3//5.png", screen);       layer52.LoadImg("img//bk1//3//5.png", screen);
-                layer61.LoadImg("img//bk4//3//5.png", screen);       layer62.LoadImg("img//bk1//3//5.png", screen);
+                layer11.LoadImg("img//bk4//2//1.png", screen);       layer12.LoadImg("img//bk4//2//1.png", screen);
+                layer21.LoadImg("img//bk4//2//2.png", screen);       layer22.LoadImg("img//bk4//2//2.png", screen);
+                layer31.LoadImg("img//bk4//2//3.png", screen);       layer32.LoadImg("img//bk4//2//3.png", screen);
+                layer41.LoadImg("img//bk4//2//4.png", screen);       layer42.LoadImg("img//bk4//2//4.png", screen);
+                layer51.LoadImg("img//bk4//2//5.png", screen);       layer52.LoadImg("img//bk4//2//5.png", screen);
+                layer61.LoadImg("img//bk4//2//5.png", screen);       layer62.LoadImg("img//bk4//2//5.png", screen);
             }
-            m3 = 0;
+            m1 = 0;
             m2 = 0;
             m3 = 1;
         }
@@ -231,17 +256,19 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& score)
         game_map.DrawMap(screen);
 
         p_player.SetMapXY(ga_map.start_x_, ga_map.start_y_);
-        p_player.DoPlayer(ga_map, speed);
+        p_player.Physics(ga_map, speed);
 
         //Render
         p_player.Show(screen);
         butt.Show(screen);
         butt2.Show(screen);
 
-        int x = p_player.GetX();
-        int y = p_player.GetY();
+        int x = p_player.GetX() - 10;
+        int y = p_player.GetY() + 5;
         eff.Set(x, y);
         eff.Show(screen);
+        exx.Set(x, y);
+        exx.Show(screen);
 
         //Show point
         if (action != 3 && startin != 0) poi += 0.1;
@@ -257,23 +284,45 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& score)
         resin.SetText(re);
         resin.loadFromRenderedText(g_font_text, screen);
 
+
         int percent = poi * 100;
-        percent /= 500;
-        std::string re2 = std::to_string(percent);
-        perc.SetText(re2);
+        percent /= 302;
+        if (poi == 302)
+        {
+            std::string re2 = std::to_string(100);
+            re2 += '%';
+            perc.SetText(re2);
+        }
+        else
+        {
+            std::string re2 = std::to_string(percent);
+            re2 += '%';
+            perc.SetText(re2);
+        }
         perc.loadFromRenderedText(g_font_text, screen);
 
         //Show result
-        if (action == 3)
+        if (action == 3 || action == 4)
         {
-            Mix_HaltMusic();
+            if (action == 3)     Mix_HaltMusic();
             res.Render(screen, NULL);
-            butt3.Show(screen);
+            if (action == 3)      butt3.Show(screen);
             butt4.Show(screen);
-            resin.RenderText(screen, 600, 300);
-            perc.RenderText(screen, 600, 400);
-            if (v3 == 1) return 4;
-            if (v4 == 1) return 2;
+            resin.RenderText(screen, 590, 265);
+            perc.RenderText(screen, 590, 360);
+            butt.Free();
+            if (v3 == 1)
+            {
+                Mix_HaltMusic();
+                return 10;
+            }
+            if (v4 == 1)
+            {
+                if (poin > high_score) high_score = poin;
+                if (percent > percentage) percentage = percent;
+                Mix_HaltMusic();
+                return 2;
+            }
         }
 
         SDL_RenderPresent(screen);
@@ -320,5 +369,3 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& score)
     Mix_HaltMusic();
     return 3;
 }
-
-*/

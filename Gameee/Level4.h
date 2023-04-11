@@ -8,16 +8,15 @@
 #include <string>
 #include "Menu.h"
 #include "Buttons.h"
-/*
+
 class Level4
 {
 public:
 	Level4();
 	~Level4();
 
-	int CreateLevel(SDL_Renderer* screen, int& score);
+	int CreateLevel(SDL_Renderer* screen, int& high_score, int sprite, int& per);
 
 private:
 
 };
-*/

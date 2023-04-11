@@ -19,7 +19,7 @@ bool InitData()
     if (ret < 0) return false;
 
     //Create window
-    g_window = SDL_CreateWindow("Crappy Rhythm Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    g_window = SDL_CreateWindow("Slime Adventure", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (g_window == NULL)
     {
         return false;
@@ -67,14 +67,15 @@ int main(int argc, char* argv[])
     {
         return -1;
     }
+    Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
     Menu menuing;
     Level lev;
-    //Level2 lev2;
-    //Level3 lev3;
-   // Level4 lev4;
+    Level2 lev2;
+    Level3 lev3;
+    Level4 lev4;
 
-    int action = 4;
-    int sprite = 2;
+    int action = 1;
+    int sprite = 1;
 
     int score = 0;
     int high_score = 0;
@@ -92,6 +93,10 @@ int main(int argc, char* argv[])
     int high_score4 = 0;
     int per4 = 0;
     // 1 = to menu // 2 = to level // 3 = quit // 4 = to level // 5 = result
+
+    Mix_Music* mus;
+    mus = Mix_LoadMUS("songs//Joji.mp3");
+    Mix_PlayMusic(mus, 10);
 
     while (action != 3)
     {
@@ -114,7 +119,9 @@ int main(int argc, char* argv[])
 
         if (action == 4)
         {
+            Mix_PauseMusic();
             action = lev.CreateLevel(g_screen, high_score, sprite, per);
+            Mix_PlayMusic(mus, 10);
         }
 
         if (action == 6)
@@ -127,32 +134,26 @@ int main(int argc, char* argv[])
             action = menuing.CreateTutorial(g_screen);
         }
 
-       /* if (action == 8)
+        if (action == 8)
         {
-            action = lev2.CreateLevel(g_screen, score2);
+            Mix_PauseMusic();
+            action = lev2.CreateLevel(g_screen, high_score2, sprite, per2);
+            Mix_PlayMusic(mus, 10);
         }
 
         if (action == 9)
         {
-            action = lev3.CreateLevel(g_screen, score3);
+            Mix_PauseMusic();
+            action = lev3.CreateLevel(g_screen, high_score3, sprite, per3);
+            Mix_PlayMusic(mus, 10);
         }
 
         if (action == 10)
         {
-            action = lev4.CreateLevel(g_screen, score4);
+            Mix_PauseMusic();
+            action = lev4.CreateLevel(g_screen, high_score4, sprite, per4);
+            Mix_PlayMusic(mus, 10);
         }
-        if (action == 11)
-        {
-            action = menuing.CreateResult(g_screen, score2, high_score2, per2);
-        }
-        if (action == 12)
-        {
-            action = menuing.CreateResult(g_screen, score3, high_score3, per3);
-        }
-        if (action == 13)
-        {
-            action = menuing.CreateResult(g_screen, score4, high_score4, per4);
-        } */
     }
      close(); 
      return 0;
