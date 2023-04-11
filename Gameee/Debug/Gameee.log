@@ -1,4 +1,3 @@
-﻿  Char.cpp
-D:\VS\Gameee\Gameee\Char.cpp(326,12): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-D:\VS\Gameee\Gameee\Char.cpp(330,12): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+﻿  Menu.cpp
+D:\VS\Gameee\Gameee\Char.h(44,18): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   Gameee.vcxproj -> D:\VS\Gameee\Debug\Gameee.exe
