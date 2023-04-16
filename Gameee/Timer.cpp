@@ -36,9 +36,7 @@ void ImpTimer::unpause()
     if (is_paused_ == true)
     {
         is_paused_ = false;
-        //Reset the starting ticks
         start_tick_ = SDL_GetTicks() - paused_ticks_;
-        //Reset the paused ticks
         paused_ticks_ = 0;
     }
 }
@@ -47,7 +45,6 @@ int ImpTimer::get_ticks()
 {
     if (is_started_ == true)
     {
-        //If the timer is paused
         if (is_paused_ == true)
         {
             return paused_ticks_;
@@ -57,8 +54,6 @@ int ImpTimer::get_ticks()
             return SDL_GetTicks() - start_tick_;
         }
     }
-
-    //If the timer isn't running
     return 0;
 }
 

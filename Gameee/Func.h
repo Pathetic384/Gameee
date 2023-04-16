@@ -30,21 +30,6 @@ const int COLOR_KEY_B = 255;
 #define MAX_MAP_X 400
 #define MAX_MAP_Y 10
 
-namespace Func
-{
-
-    bool CheckCollision(const SDL_Rect& object1, const SDL_Rect& object2);
-
-}
-
-typedef struct Input
-{
-    int left_;
-    int right_;
-    int up_;
-    int down_;
-    int jump_;
-} Input;
 
 typedef struct Map
 {

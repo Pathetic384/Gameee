@@ -4,7 +4,6 @@
 class Res : public Base
 {
 public:
-	//Initializes internal variables
 	Res();
 
 	void set_clips();

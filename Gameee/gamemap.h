@@ -1,7 +1,7 @@
 #pragma once
 #include "Base.h"
 
-#define MAX_TILES 20
+#define MAX_TILES 25
 
 class TileMat : public Base
 {
@@ -28,6 +28,5 @@ public:
 public:
 	Map game_map_;
 	TileMat tile_mat_[MAX_TILES];
-	Input input_type_;
 };
 

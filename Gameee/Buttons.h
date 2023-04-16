@@ -13,7 +13,6 @@ enum ButtonSprite
 class Button : public Base
 {
 public:
-	//Initializes internal variables
 	Button();
 
 	void set_button_clips(int x);
@@ -40,7 +39,6 @@ private:
 
 	int status_;
 
-	//Currently used global sprite
 	ButtonSprite mCurrentSprite;
 
 	int BUTTON_WIDTH;

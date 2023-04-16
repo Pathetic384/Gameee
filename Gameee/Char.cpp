@@ -238,7 +238,6 @@ void Char::Collide(Map& g_map, int& action)
     
     if (mode == 1)
     {
-        //Check Horizontal
         int height_min = height_frame_ < TILE_SIZE ? height_frame_ : TILE_SIZE;
 
         x1 = (x_pos_ + x_val_) / TILE_SIZE;
@@ -271,7 +270,6 @@ void Char::Collide(Map& g_map, int& action)
             }
         }
 
-        // Check vertical
         int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
 
         x1 = (x_pos_) / TILE_SIZE;
@@ -284,7 +282,6 @@ void Char::Collide(Map& g_map, int& action)
         {
             if (y_val_ > 0)
             {
-                //Similar for vertical
                 int val1 = g_map.tile[y2][x1];
                 int val2 = g_map.tile[y2][x2];
 
@@ -337,7 +334,6 @@ void Char::Collide(Map& g_map, int& action)
 
     if (mode == 2)
     {
-        //Check Horizontal
         int height_min = height_frame_ < TILE_SIZE ? height_frame_ : TILE_SIZE;
 
         x1 = (x_pos_ + x_val_) / TILE_SIZE;
@@ -370,7 +366,6 @@ void Char::Collide(Map& g_map, int& action)
             }
         }
 
-        // Check vertical
         int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
 
         x1 = (x_pos_ + 20) / TILE_SIZE;
@@ -383,7 +378,6 @@ void Char::Collide(Map& g_map, int& action)
         {
             if (y_val_ > 0)
             {
-                //Similar for vertical
                 int val1 = g_map.tile[y2][x1];
                 int val2 = g_map.tile[y2][x2];
 
@@ -434,7 +428,6 @@ void Char::Collide(Map& g_map, int& action)
 
     else if (mode == 3)
     {
-        //Check Horizontal
         int height_min = height_frame_ < TILE_SIZE ? height_frame_ : TILE_SIZE;
 
         x1 = (x_pos_ + x_val_) / TILE_SIZE;
@@ -466,7 +459,6 @@ void Char::Collide(Map& g_map, int& action)
             }
         }
 
-        // Check vertical
         int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
 
         x1 = (x_pos_) / TILE_SIZE;
@@ -479,7 +471,6 @@ void Char::Collide(Map& g_map, int& action)
         {
             if (y_val_ > 0)
             {
-                //Similar for vertical
                 int val1 = g_map.tile[y2][x2];
                 int val2 = g_map.tile[y2][x2];
 
@@ -524,7 +515,6 @@ void Char::Collide(Map& g_map, int& action)
         }
     }
 
-    //If there is not collision with map tile. 
     x_pos_ += x_val_;
     y_pos_ += y_val_;
 

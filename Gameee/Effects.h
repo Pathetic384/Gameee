@@ -4,7 +4,6 @@
 class Effects : public Base
 {
 public:
-	//Initializes internal variables
 	Effects();
 
 	void set_clips();

@@ -201,7 +201,7 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& high_score, int sprite, int& 
                 layer31.LoadImg("img//bk4//1//3.png", screen);       layer32.LoadImg("img//bk4//1//3.png", screen);
                 layer41.LoadImg("img//bk4//1//4.png", screen);       layer42.LoadImg("img//bk4//1//4.png", screen);
                 layer51.LoadImg("img//bk4//1//5.png", screen);       layer52.LoadImg("img//bk4//1//5.png", screen);
-                layer61.LoadImg("img//bk4//1//6.png", screen);       layer62.LoadImg("img//bk4//1//6.png", screen);
+                layer61.LoadImg("img//bk4//1//5.png", screen);       layer62.LoadImg("img//bk4//1//5.png", screen);
             }
             m1 = 0;
             m2 = 1;
@@ -216,7 +216,7 @@ int Level4::CreateLevel(SDL_Renderer* screen, int& high_score, int sprite, int& 
                 layer31.LoadImg("img//bk4//2//3.png", screen);       layer32.LoadImg("img//bk4//2//3.png", screen);
                 layer41.LoadImg("img//bk4//2//4.png", screen);       layer42.LoadImg("img//bk4//2//4.png", screen);
                 layer51.LoadImg("img//bk4//2//5.png", screen);       layer52.LoadImg("img//bk4//2//5.png", screen);
-                layer61.LoadImg("img//bk4//2//5.png", screen);       layer62.LoadImg("img//bk4//2//5.png", screen);
+                layer61.LoadImg("img//bk4//2//6.png", screen);       layer62.LoadImg("img//bk4//2//6.png", screen);
             }
             m1 = 0;
             m2 = 0;

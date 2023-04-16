@@ -12,7 +12,6 @@ public:
 
 	void setAlpha(Uint8 alpha)
 	{
-		//Modulate texture alpha
 		SDL_SetTextureAlphaMod(p_object_, alpha);
 	}
 

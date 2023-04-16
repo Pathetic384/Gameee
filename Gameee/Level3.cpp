@@ -315,7 +315,7 @@ int Level3::CreateLevel(SDL_Renderer* screen, int& high_score, int sprite, int& 
             if (v4 == 1)
             {
                 if (poin > high_score) high_score = poin;
-                if (percent > percentage) percentage = percent;
+                if (percent + 1> percentage) percentage = percent + 1;
                 Mix_HaltMusic();
                 return 2;
             }

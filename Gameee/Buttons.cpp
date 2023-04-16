@@ -38,46 +38,35 @@ bool Button::LoadImg(std::string path, SDL_Renderer* screen)
 
 void Button::handleEvent(SDL_Event e, int& t)
 {
-	//If mouse event happened
 	if (e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP)
 	{
-		//Get mouse position
 		int x, y;
 		SDL_GetMouseState(&x, &y);
 
-		//Check if mouse is in button
 		bool inside = true;
 
-		//Mouse is left of the button
 		if (x < rect_.x)
 		{
 			inside = false;
 		}
-		//Mouse is right of the button
 		else if (x > rect_.x + BUTTON_WIDTH)
 		{
 			inside = false;
 		}
-		//Mouse above the button
 		else if (y < rect_.y)
 		{
 			inside = false;
 		}
-		//Mouse below the button
 		else if (y > rect_.y + BUTTON_HEIGHT)
 		{
 			inside = false;
 		}
-
-		//Mouse is outside button
 		if (!inside)
 		{
 			mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
 		}
-		//Mouse is inside button
 		else
 		{
-			//Set mouse over sprite
 			switch (e.type)
 			{
 			case SDL_MOUSEMOTION:
