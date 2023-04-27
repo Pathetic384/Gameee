@@ -163,11 +163,11 @@ void Char::Physics(Map& g_map, int speed)
     {
       //  if (dead == false)
         {
-            y_val_ += GRAVITY_SPEED;
+            y_val_ += gravity;
 
-            if (y_val_ >= MAX_FALL_SPEED)
+            if (y_val_ >= fall_max)
             {
-                y_val_ = MAX_FALL_SPEED;
+                y_val_ = fall_max;
             }
         }
     }
@@ -175,9 +175,9 @@ void Char::Physics(Map& g_map, int speed)
     {
         y_val_ += 0.7;
 
-        if (y_val_ >= MAX_FALL_SPEED)
+        if (y_val_ >= fall_max)
         {
-            y_val_ = MAX_FALL_SPEED;
+            y_val_ = fall_max;
         }
     }
 
@@ -189,7 +189,7 @@ void Char::Physics(Map& g_map, int speed)
             {
                 if (on_ground_ == true)
                 {
-                    y_val_ = -PLAYER_HIGHT_VAL;
+                    y_val_ = -jump_val;
                 }
                 on_ground_ = false;
                 jumping = 0;
@@ -198,7 +198,7 @@ void Char::Physics(Map& g_map, int speed)
             {
                 if (on_ground_ == true)
                 {
-                    y_val_ = -PLAYER_HIGHT_VAL;
+                    y_val_ = -jump_val;
                 }
                 on_ground_ = false;
             }

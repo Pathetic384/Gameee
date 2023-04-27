@@ -7,9 +7,9 @@
 #include "Effects.h"
 
 
-#define GRAVITY_SPEED 1
-#define MAX_FALL_SPEED 10
-#define PLAYER_HIGHT_VAL 17
+#define gravity 1
+#define fall_max 10
+#define jump_val 17
 
 
 class Char : public Base

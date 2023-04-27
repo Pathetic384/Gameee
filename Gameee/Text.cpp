@@ -39,12 +39,6 @@ void Text::Free()
     }
 }
 
-void Text::setColor(Uint8 red, Uint8 green, Uint8 blue)
-{
-    text_color_.r = red;
-    text_color_.g = green;
-    text_color_.b = blue;
-}
 
 void Text::setColor(int type)
 {
@@ -64,7 +58,7 @@ void Text::setColor(int type)
         text_color_ = color;
     }
 }
-void Text::RenderText(SDL_Renderer* screen, int x, int y, SDL_Rect* clip /* = NULL */, double angle /* = 0.0 */, SDL_Point* center /* = NULL */, SDL_RendererFlip flip /* = SDL_FLIP_NONE */)
+void Text::RenderText(SDL_Renderer* screen, int x, int y, SDL_Rect* clip )
 {
     SDL_Rect renderQuad = { x, y, width_, height_ };
 
@@ -74,5 +68,5 @@ void Text::RenderText(SDL_Renderer* screen, int x, int y, SDL_Rect* clip /* = NU
         renderQuad.h = clip->h;
     }
 
-    SDL_RenderCopyEx(screen, texture_, clip, &renderQuad, angle, center, flip);
+    SDL_RenderCopy(screen, texture_, clip, &renderQuad);
 }
